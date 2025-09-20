@@ -53,7 +53,7 @@ test:
 ## docker-up: Inicia MySQL via Docker Compose
 docker-up:
 	@echo "🐳 Iniciando MySQL com Docker..."
-	@docker-compose up -d mysql
+	@docker compose up -d mysql
 	@echo "✅ MySQL rodando em localhost:3306"
 	@echo "📊 PhpMyAdmin disponível em http://localhost:8081"
 
