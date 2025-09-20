@@ -5,8 +5,8 @@ import (
 	"errors"
 	"time"
 
-	"go-modular-monolith/internal/user/domain"
-	"go-modular-monolith/internal/user/ports"
+	"go-modular-monolith/internal/modules/user/domain"
+	"go-modular-monolith/internal/modules/user/ports"
 	"go-modular-monolith/pkg/contracts"
 	"go-modular-monolith/pkg/events"
 

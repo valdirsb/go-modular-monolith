@@ -3,11 +3,11 @@ package bootstrap
 import (
 	"log"
 
+	"go-modular-monolith/internal/modules/user/adapters"
+	"go-modular-monolith/internal/modules/user/handler"
+	"go-modular-monolith/internal/modules/user/repository"
+	"go-modular-monolith/internal/modules/user/service"
 	"go-modular-monolith/internal/shared/database"
-	"go-modular-monolith/internal/user/adapters"
-	"go-modular-monolith/internal/user/handler"
-	"go-modular-monolith/internal/user/repository"
-	"go-modular-monolith/internal/user/service"
 	"go-modular-monolith/pkg/container"
 	"go-modular-monolith/pkg/contracts"
 	"go-modular-monolith/pkg/events"

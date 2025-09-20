@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"go-modular-monolith/internal/product/domain"
+	"go-modular-monolith/internal/modules/product/domain"
 )
 
 type ProductService struct {

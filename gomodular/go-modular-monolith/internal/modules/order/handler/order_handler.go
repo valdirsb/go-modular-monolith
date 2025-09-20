@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"go-modular-monolith/internal/modules/order/service"
 	"net/http"
+
 	"github.com/gorilla/mux"
-	"go-modular-monolith/internal/order/service"
 )
 
 type OrderHandler struct {

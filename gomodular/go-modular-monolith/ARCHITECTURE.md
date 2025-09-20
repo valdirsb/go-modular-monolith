@@ -14,6 +14,7 @@ Este projeto implementa um **monólito modular** em Go seguindo os melhores padr
 ### Estrutura do Projeto
 
 ```
+```
 go-modular-monolith/
 ├── cmd/                          # Pontos de entrada da aplicação
 │   └── server/
@@ -27,20 +28,21 @@ go-modular-monolith/
 │   │   ├── database/
 │   │   ├── logger/
 │   │   └── middleware/
-│   └── {module}/                # Módulos de domínio (user, product, order)
-│       ├── domain/              # Entidades e regras de negócio
-│       │   ├── {entity}.go
-│       │   └── repository.go    # Interface do repositório
-│       ├── ports/               # Interfaces (Primary e Secondary Ports)
-│       │   └── ports.go
-│       ├── service/             # Casos de uso/aplicação
-│       │   └── {module}_service.go
-│       ├── adapters/            # Implementações de interfaces externas
-│       │   └── {adapter}.go
-│       ├── repository/          # Implementação de persistência
-│       │   └── {module}_repository.go
-│       └── handler/             # Controllers/HTTP Handlers
-│           └── {module}_handler.go
+│   └── modules/                 # Módulos de domínio organizados
+│       └── {module}/            # Cada módulo (user, product, order)
+│           ├── domain/          # Entidades e regras de negócio
+│           │   ├── {entity}.go
+│           │   └── repository.go # Interface do repositório
+│           ├── ports/           # Interfaces (Primary e Secondary Ports)
+│           │   └── ports.go
+│           ├── service/         # Casos de uso/aplicação
+│           │   └── {module}_service.go
+│           ├── adapters/        # Implementações de interfaces externas
+│           │   └── {adapter}.go
+│           ├── repository/      # Implementação de persistência
+│           │   └── {module}_repository.go
+│           └── handler/         # Controllers/HTTP Handlers
+│               └── {module}_handler.go
 ├── pkg/                         # Código reutilizável
 │   ├── contracts/               # Interfaces e contratos globais
 │   │   ├── interfaces.go        # Interfaces de domínio
@@ -48,6 +50,7 @@ go-modular-monolith/
 │   ├── container/               # DI Container
 │   │   └── container.go
 │   └── events/                  # Sistema de eventos
+```
 │       └── eventbus.go
 ├── go.mod
 ├── go.sum
@@ -99,7 +102,7 @@ mkdir -p internal/{nome_modulo}/{domain,ports,service,adapters,repository,handle
 Crie as entidades e regras de negócio em `domain/`:
 
 ```go
-// internal/{modulo}/domain/{entidade}.go
+// internal/modules/{modulo}/domain/{entidade}.go
 package domain
 
 type MinhaEntidade struct {
@@ -130,7 +133,7 @@ func NewMinhaEntidade(id, nome string) (*MinhaEntidade, error) {
 ### 3. Definir as Interfaces (Ports)
 
 ```go
-// internal/{modulo}/ports/ports.go
+// internal/modules/{modulo}/ports/ports.go
 package ports
 
 import (
@@ -152,7 +155,7 @@ type MinhaEntidadeRepository interface {
 ### 4. Implementar o Serviço de Aplicação
 
 ```go
-// internal/{modulo}/service/{modulo}_service.go
+// internal/modules/{modulo}/service/{modulo}_service.go
 package service
 
 type minhaEntidadeService struct {
@@ -181,7 +184,7 @@ func (s *minhaEntidadeService) Create(ctx context.Context, req contracts.CreateM
 ### 5. Implementar os Adapters
 
 ```go
-// internal/{modulo}/repository/{modulo}_repository.go
+// internal/modules/{modulo}/repository/{modulo}_repository.go
 package repository
 
 type gormMinhaEntidadeRepository struct {

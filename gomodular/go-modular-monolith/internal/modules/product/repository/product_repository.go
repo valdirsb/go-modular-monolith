@@ -2,7 +2,7 @@ package repository
 
 import (
 	"errors"
-	"go-modular-monolith/internal/product/domain"
+	"go-modular-monolith/internal/modules/product/domain"
 )
 
 type InMemoryProductRepository struct {

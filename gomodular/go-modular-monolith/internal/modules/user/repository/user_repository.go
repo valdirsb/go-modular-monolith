@@ -2,7 +2,7 @@ package repository
 
 import (
 	"errors"
-	"go-modular-monolith/internal/user/domain"
+	"go-modular-monolith/internal/modules/user/domain"
 )
 
 type UserRepository struct {

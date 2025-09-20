@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"go-modular-monolith/internal/modules/user/ports"
 	"go-modular-monolith/internal/shared/database"
-	"go-modular-monolith/internal/user/ports"
 	"go-modular-monolith/pkg/contracts"
 
 	"gorm.io/gorm"

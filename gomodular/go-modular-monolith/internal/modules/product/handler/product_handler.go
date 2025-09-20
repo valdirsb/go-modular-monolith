@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"go-modular-monolith/internal/product/service"
+	"go-modular-monolith/internal/modules/product/service"
 
 	"github.com/gin-gonic/gin"
 )

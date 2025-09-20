@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"go-modular-monolith/internal/order/domain"
+	"go-modular-monolith/internal/modules/order/domain"
 )
 
 type OrderService struct {
