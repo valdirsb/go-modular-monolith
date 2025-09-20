@@ -1,5 +1,5 @@
 nohup: ignorando entrada
-2025/09/20 10:32:44 [INFO] Starting Go Modular Monolith []
+2025/09/20 16:31:30 [INFO] Starting Go Modular Monolith []
 [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
 
 [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
@@ -7,172 +7,123 @@ nohup: ignorando entrada
  - using code:	gin.SetMode(gin.ReleaseMode)
 
 [GIN-debug] GET    /health                   --> main.main.func1 (5 handlers)
-2025/09/20 10:32:44 Successfully connected to MySQL database
+2025/09/20 16:31:30 Successfully connected to MySQL database
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[1.222ms] [34;1m[rows:-][0m SELECT DATABASE()
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[0.356ms] [34;1m[rows:-][0m SELECT DATABASE()
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[5.876ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[1.474ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[3.188ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = 'app_db' AND table_name = 'users' AND table_type = 'BASE TABLE'
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[1.779ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = 'app_db' AND table_name = 'users' AND table_type = 'BASE TABLE'
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[1.113ms] [34;1m[rows:-][0m SELECT DATABASE()
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[0.392ms] [34;1m[rows:-][0m SELECT DATABASE()
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[3.316ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[1.156ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[1.710ms] [34;1m[rows:-][0m SELECT * FROM `users` LIMIT 1
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[0.819ms] [34;1m[rows:-][0m SELECT * FROM `users` LIMIT 1
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[5.213ms] [34;1m[rows:-][0m SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'app_db' AND table_name = 'users' ORDER BY ORDINAL_POSITION
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[2.513ms] [34;1m[rows:-][0m SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'app_db' AND table_name = 'users' ORDER BY ORDINAL_POSITION
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[0.989ms] [34;1m[rows:-][0m SELECT DATABASE()
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[0.600ms] [34;1m[rows:-][0m SELECT DATABASE()
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[2.850ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[1.356ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[3.946ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'app_db' AND table_name = 'users' AND index_name = 'idx_users_username'
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[1.512ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'app_db' AND table_name = 'users' AND index_name = 'idx_users_username'
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[1.199ms] [34;1m[rows:-][0m SELECT DATABASE()
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[0.361ms] [34;1m[rows:-][0m SELECT DATABASE()
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[2.699ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[0.993ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'app_db%' ORDER BY SCHEMA_NAME='app_db' DESC,SCHEMA_NAME limit 1
 
-2025/09/20 10:32:44 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
-[0m[33m[3.963ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'app_db' AND table_name = 'users' AND index_name = 'idx_users_email'
-2025/09/20 10:32:44 Database migration completed successfully
-[GIN-debug] POST   /api/v1/users/            --> main.registerUserRoutes.createUserHandler.func1 (5 handlers)
-[GIN-debug] GET    /api/v1/users/:id         --> main.registerUserRoutes.getUserHandler.func2 (5 handlers)
-[GIN-debug] PUT    /api/v1/users/:id         --> main.registerUserRoutes.updateUserHandler.func3 (5 handlers)
-[GIN-debug] DELETE /api/v1/users/:id         --> main.registerUserRoutes.deleteUserHandler.func4 (5 handlers)
-[GIN-debug] POST   /api/v1/users/validate    --> main.registerUserRoutes.validateUserHandler.func5 (5 handlers)
-2025/09/20 10:32:44 [INFO] Server starting on port 8080 []
-[GIN] 2025/09/20 - 10:32:55 | 200 |     175.662µs |             ::1 | GET      "/health"
-[GIN] 2025/09/20 - 10:32:55 | 200 |     278.536µs |             ::1 | GET      "/health"
+2025/09/20 16:31:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/shared/database/database.go:119
+[0m[33m[1.300ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'app_db' AND table_name = 'users' AND index_name = 'idx_users_email'
+2025/09/20 16:31:30 Database migration completed successfully
+[GIN-debug] POST   /api/v1/users/            --> go-modular-monolith/pkg/contracts.UserHandler.CreateUser-fm (5 handlers)
+[GIN-debug] GET    /api/v1/users/:id         --> go-modular-monolith/pkg/contracts.UserHandler.GetUser-fm (5 handlers)
+[GIN-debug] PUT    /api/v1/users/:id         --> go-modular-monolith/pkg/contracts.UserHandler.UpdateUser-fm (5 handlers)
+[GIN-debug] DELETE /api/v1/users/:id         --> go-modular-monolith/pkg/contracts.UserHandler.DeleteUser-fm (5 handlers)
+[GIN-debug] POST   /api/v1/users/validate    --> go-modular-monolith/pkg/contracts.UserHandler.ValidateUser-fm (5 handlers)
+2025/09/20 16:31:30 [INFO] Server starting on port 8080 []
+[GIN] 2025/09/20 - 16:31:41 | 200 |     131.292µs |             ::1 | GET      "/health"
+[GIN] 2025/09/20 - 16:31:41 | 200 |     264.521µs |             ::1 | GET      "/health"
+2025/09/20 16:31:54 [INFO] Creating new user [{email arquitetura@example.com}]
 
-2025/09/20 10:33:06 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
-[0m[33m[9.807ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'test3@example.com' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:33:06 [INFO] User validated successfully [{user_id 607be87c-1d0d-43d1-b253-a369e8ebd379}]
-[GIN] 2025/09/20 - 10:33:06 | 200 |  330.926064ms |             ::1 | POST     "/api/v1/users/validate"
-[GIN] 2025/09/20 - 10:33:06 | 200 |  330.961945ms |             ::1 | POST     "/api/v1/users/validate"
+2025/09/20 16:31:54 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56 [35;1mrecord not found
+[0m[33m[1.780ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = 'arquitetura@example.com' ORDER BY `users`.`id` LIMIT 1
 
-2025/09/20 10:33:22 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
-[0m[33m[3.642ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'test3@example.com' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:33:22 [WARN] Invalid password attempt [{email test3@example.com}]
-[GIN] 2025/09/20 - 10:33:22 | 401 |   236.97704ms |             ::1 | POST     "/api/v1/users/validate"
-[GIN] 2025/09/20 - 10:33:22 | 401 |  237.005591ms |             ::1 | POST     "/api/v1/users/validate"
-2025/09/20 10:33:36 [INFO] Creating new user [{email testuser@example.com}]
+2025/09/20 16:31:54 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:31
+[0m[33m[7.328ms] [34;1m[rows:1][0m INSERT INTO `users` (`id`,`username`,`email`,`password`,`created_at`,`updated_at`) VALUES ('498a777e-de88-42bb-8783-688f1c9d3cb8','arquitetura_test','arquitetura@example.com','$argon2id$v=19$m=65536,t=3,p=2$fcab0fa15848e67c952826a23678aaca$4b62dce04b5f8c0d618dacdb9158b5019f8521546417ae593ee5cc9fcd69c97a','2025-09-20 16:31:54.839','2025-09-20 16:31:54.839')
+2025/09/20 16:31:54 [INFO] User created successfully [{user_id 498a777e-de88-42bb-8783-688f1c9d3cb8}]
+2025/09/20 16:31:54 [EMAIL] Welcome email sent to arquitetura@example.com (User: 498a777e-de88-42bb-8783-688f1c9d3cb8)
+[GIN] 2025/09/20 - 16:31:54 | 201 |  145.613015ms |             ::1 | POST     "/api/v1/users/"
+[GIN] 2025/09/20 - 16:31:54 | 201 |  145.629006ms |             ::1 | POST     "/api/v1/users/"
 
-2025/09/20 10:33:36 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56 [35;1mrecord not found
-[0m[33m[10.200ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = 'testuser@example.com' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:04 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
+[0m[33m[2.668ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'arquitetura@example.com' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:05 [INFO] User validated successfully [{user_id 498a777e-de88-42bb-8783-688f1c9d3cb8}]
+[GIN] 2025/09/20 - 16:32:05 | 200 |  140.242747ms |             ::1 | POST     "/api/v1/users/validate"
+[GIN] 2025/09/20 - 16:32:05 | 200 |  140.260978ms |             ::1 | POST     "/api/v1/users/validate"
+[GIN] 2025/09/20 - 16:32:18 | 200 |      33.766µs |             ::1 | GET      "/health"
+[GIN] 2025/09/20 - 16:32:18 | 200 |      89.132µs |             ::1 | GET      "/health"
+2025/09/20 16:32:18 [INFO] Creating new user [{email joao_1758396738@example.com}]
 
-2025/09/20 10:33:36 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:31
-[0m[33m[9.209ms] [34;1m[rows:1][0m INSERT INTO `users` (`id`,`username`,`email`,`password`,`created_at`,`updated_at`) VALUES ('4e4afaec-8215-480b-80db-1bcfc67cd1b0','testuser','testuser@example.com','$argon2id$v=19$m=65536,t=3,p=2$e303e353072d9a0881959ef1acafd8ab$4c8f3117b9e0bbce1aaf06d50313d69e0cd6177ba48806a53fff861ec86f4a3d','2025-09-20 10:33:36.441','2025-09-20 10:33:36.441')
-2025/09/20 10:33:36 [INFO] User created successfully [{user_id 4e4afaec-8215-480b-80db-1bcfc67cd1b0}]
-[GIN] 2025/09/20 - 10:33:36 | 201 |  255.521827ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:33:36 | 201 |   255.55055ms |             ::1 | POST     "/api/v1/users/"
-2025/09/20 10:33:36 [EMAIL] Welcome email sent to testuser@example.com (User: 4e4afaec-8215-480b-80db-1bcfc67cd1b0)
+2025/09/20 16:32:18 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56 [35;1mrecord not found
+[0m[33m[2.953ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = 'joao_1758396738@example.com' ORDER BY `users`.`id` LIMIT 1
 
-2025/09/20 10:33:45 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
-[0m[33m[11.352ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'testuser@example.com' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:33:46 [INFO] User validated successfully [{user_id 4e4afaec-8215-480b-80db-1bcfc67cd1b0}]
-[GIN] 2025/09/20 - 10:33:46 | 200 |  259.058709ms |             ::1 | POST     "/api/v1/users/validate"
-[GIN] 2025/09/20 - 10:33:46 | 200 |  259.096363ms |             ::1 | POST     "/api/v1/users/validate"
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:31
+[0m[33m[7.021ms] [34;1m[rows:1][0m INSERT INTO `users` (`id`,`username`,`email`,`password`,`created_at`,`updated_at`) VALUES ('acc315a2-d177-46e4-b3d4-c331df136568','joao_1758396738','joao_1758396738@example.com','$argon2id$v=19$m=65536,t=3,p=2$a6210d6b98e6ceb730d0f63875f8347d$84b998c571c825ed7866a2c60671022beed819efec5b412d2ed6458a29401f6e','2025-09-20 16:32:18.616','2025-09-20 16:32:18.616')
+2025/09/20 16:32:18 [INFO] User created successfully [{user_id acc315a2-d177-46e4-b3d4-c331df136568}]
+2025/09/20 16:32:18 [EMAIL] Welcome email sent to joao_1758396738@example.com (User: acc315a2-d177-46e4-b3d4-c331df136568)
+[GIN] 2025/09/20 - 16:32:18 | 201 |  137.188291ms |             ::1 | POST     "/api/v1/users/"
+[GIN] 2025/09/20 - 16:32:18 | 201 |  137.213299ms |             ::1 | POST     "/api/v1/users/"
 
-2025/09/20 10:33:56 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
-[0m[33m[22.971ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = '4e4afaec-8215-480b-80db-1bcfc67cd1b0' ORDER BY `users`.`id` LIMIT 1
-[GIN] 2025/09/20 - 10:33:56 | 200 |   23.345705ms |             ::1 | GET      "/api/v1/users/4e4afaec-8215-480b-80db-1bcfc67cd1b0"
-[GIN] 2025/09/20 - 10:33:56 | 200 |   23.457398ms |             ::1 | GET      "/api/v1/users/4e4afaec-8215-480b-80db-1bcfc67cd1b0"
-[GIN] 2025/09/20 - 10:34:40 | 404 |       2.513µs |             ::1 | GET      "/api/health"
-[GIN] 2025/09/20 - 10:34:40 | 404 |     187.285µs |             ::1 | GET      "/api/health"
-2025/09/20 10:34:40 [INFO] Creating new user [{email joao@example.com}]
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
+[0m[33m[2.760ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = 'acc315a2-d177-46e4-b3d4-c331df136568' ORDER BY `users`.`id` LIMIT 1
+[GIN] 2025/09/20 - 16:32:18 | 200 |    2.918751ms |             ::1 | GET      "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
+[GIN] 2025/09/20 - 16:32:18 | 200 |    2.955136ms |             ::1 | GET      "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
 
-2025/09/20 10:34:40 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
-[0m[33m[6.293ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'joao@example.com' ORDER BY `users`.`id` LIMIT 1
-[GIN] 2025/09/20 - 10:34:40 | 400 |    6.654785ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:34:40 | 400 |     6.70566ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:35:01 | 200 |      39.155µs |             ::1 | GET      "/health"
-[GIN] 2025/09/20 - 10:35:01 | 200 |      87.676µs |             ::1 | GET      "/health"
-2025/09/20 10:35:01 [INFO] Creating new user [{email joao_$(date +%s)@example.com}]
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
+[0m[33m[1.453ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = 'acc315a2-d177-46e4-b3d4-c331df136568' ORDER BY `users`.`id` LIMIT 1
 
-2025/09/20 10:35:01 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56 [35;1mrecord not found
-[0m[33m[7.452ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = 'joao_$(date +%s)@example.com' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:35:01 [ERROR] Failed to create user domain entity [{error username can only contain letters, numbers, underscore and hyphens}]
-[GIN] 2025/09/20 - 10:35:01 | 400 |    7.804445ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:35:01 | 400 |    7.833885ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:35:26 | 200 |      96.973µs |             ::1 | GET      "/health"
-[GIN] 2025/09/20 - 10:35:26 | 200 |     210.831µs |             ::1 | GET      "/health"
-2025/09/20 10:35:26 [INFO] Creating new user [{email joao_1758375326@example.com}]
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:71
+[0m[33m[11.505ms] [34;1m[rows:1][0m UPDATE `users` SET `username`='joao_1758396738',`email`='joao_1758396738@example.com',`password`='$argon2id$v=19$m=65536,t=3,p=2$a6210d6b98e6ceb730d0f63875f8347d$84b998c571c825ed7866a2c60671022beed819efec5b412d2ed6458a29401f6e',`created_at`='2025-09-20 16:32:18.616',`updated_at`='2025-09-20 16:32:18.65' WHERE id = 'acc315a2-d177-46e4-b3d4-c331df136568' AND `id` = 'acc315a2-d177-46e4-b3d4-c331df136568'
+2025/09/20 16:32:18 [INFO] User updated successfully [{user_id acc315a2-d177-46e4-b3d4-c331df136568}]
+[GIN] 2025/09/20 - 16:32:18 | 200 |   13.280445ms |             ::1 | PUT      "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
+[GIN] 2025/09/20 - 16:32:18 | 200 |   13.298164ms |             ::1 | PUT      "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
 
-2025/09/20 10:35:26 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56 [35;1mrecord not found
-[0m[33m[6.483ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = 'joao_1758375326@example.com' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
+[0m[33m[2.071ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'joao_1758396738@example.com' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:18 [INFO] User validated successfully [{user_id acc315a2-d177-46e4-b3d4-c331df136568}]
+[GIN] 2025/09/20 - 16:32:18 | 200 |  110.021965ms |             ::1 | POST     "/api/v1/users/validate"
+[GIN] 2025/09/20 - 16:32:18 | 200 |   110.04805ms |             ::1 | POST     "/api/v1/users/validate"
 
-2025/09/20 10:35:26 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:31
-[0m[33m[13.227ms] [34;1m[rows:1][0m INSERT INTO `users` (`id`,`username`,`email`,`password`,`created_at`,`updated_at`) VALUES ('8da39847-6933-481b-a5ca-ee6a3d2d1deb','joao_1758375326','joao_1758375326@example.com','$argon2id$v=19$m=65536,t=3,p=2$ece0251609088e3de46c1232c282dc02$227936d45d0c436c72af133f77fac1cd73ccc76ab7dccf19e12c0a1191627776','2025-09-20 10:35:26.839','2025-09-20 10:35:26.839')
-2025/09/20 10:35:26 [INFO] User created successfully [{user_id 8da39847-6933-481b-a5ca-ee6a3d2d1deb}]
-[GIN] 2025/09/20 - 10:35:26 | 201 |  236.135943ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:35:26 | 201 |  236.172903ms |             ::1 | POST     "/api/v1/users/"
-2025/09/20 10:35:26 [EMAIL] Welcome email sent to joao_1758375326@example.com (User: 8da39847-6933-481b-a5ca-ee6a3d2d1deb)
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
+[0m[33m[1.868ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'joao_1758396738@example.com' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:18 [WARN] Invalid password attempt [{email joao_1758396738@example.com}]
+[GIN] 2025/09/20 - 16:32:18 | 401 |  105.475239ms |             ::1 | POST     "/api/v1/users/validate"
+[GIN] 2025/09/20 - 16:32:18 | 401 |  105.495691ms |             ::1 | POST     "/api/v1/users/validate"
 
-2025/09/20 10:35:26 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
-[0m[33m[1.956ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = '8da39847-6933-481b-a5ca-ee6a3d2d1deb' ORDER BY `users`.`id` LIMIT 1
-[GIN] 2025/09/20 - 10:35:26 | 200 |    2.078994ms |             ::1 | GET      "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-[GIN] 2025/09/20 - 10:35:26 | 200 |    2.120174ms |             ::1 | GET      "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
+[0m[33m[1.680ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = 'acc315a2-d177-46e4-b3d4-c331df136568' ORDER BY `users`.`id` LIMIT 1
 
-2025/09/20 10:35:26 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
-[0m[33m[3.439ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = '8da39847-6933-481b-a5ca-ee6a3d2d1deb' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:18 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:85
+[0m[33m[9.892ms] [34;1m[rows:1][0m DELETE FROM `users` WHERE id = 'acc315a2-d177-46e4-b3d4-c331df136568'
+2025/09/20 16:32:18 [INFO] User deleted successfully [{user_id acc315a2-d177-46e4-b3d4-c331df136568}]
+[GIN] 2025/09/20 - 16:32:18 | 204 |   11.761502ms |             ::1 | DELETE   "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
+[GIN] 2025/09/20 - 16:32:18 | 204 |   11.789776ms |             ::1 | DELETE   "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
 
-2025/09/20 10:35:26 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:71
-[0m[33m[11.529ms] [34;1m[rows:1][0m UPDATE `users` SET `username`='joao_1758375326',`email`='joao_1758375326@example.com',`password`='$argon2id$v=19$m=65536,t=3,p=2$ece0251609088e3de46c1232c282dc02$227936d45d0c436c72af133f77fac1cd73ccc76ab7dccf19e12c0a1191627776',`created_at`='2025-09-20 10:35:26.839',`updated_at`='2025-09-20 10:35:26.9' WHERE id = '8da39847-6933-481b-a5ca-ee6a3d2d1deb' AND `id` = '8da39847-6933-481b-a5ca-ee6a3d2d1deb'
-2025/09/20 10:35:26 [INFO] User updated successfully [{user_id 8da39847-6933-481b-a5ca-ee6a3d2d1deb}]
-[GIN] 2025/09/20 - 10:35:26 | 200 |   15.400513ms |             ::1 | PUT      "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-[GIN] 2025/09/20 - 10:35:26 | 200 |    15.42784ms |             ::1 | PUT      "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-
-2025/09/20 10:35:26 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
-[0m[33m[2.376ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'joao_1758375326@example.com' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:35:27 [INFO] User validated successfully [{user_id 8da39847-6933-481b-a5ca-ee6a3d2d1deb}]
-[GIN] 2025/09/20 - 10:35:27 | 200 |  158.273434ms |             ::1 | POST     "/api/v1/users/validate"
-[GIN] 2025/09/20 - 10:35:27 | 200 |   158.30368ms |             ::1 | POST     "/api/v1/users/validate"
-
-2025/09/20 10:35:27 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56
-[0m[33m[2.405ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE email = 'joao_1758375326@example.com' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:35:27 [WARN] Invalid password attempt [{email joao_1758375326@example.com}]
-[GIN] 2025/09/20 - 10:35:27 | 401 |  161.184217ms |             ::1 | POST     "/api/v1/users/validate"
-[GIN] 2025/09/20 - 10:35:27 | 401 |  161.210177ms |             ::1 | POST     "/api/v1/users/validate"
-
-2025/09/20 10:35:27 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42
-[0m[33m[2.426ms] [34;1m[rows:1][0m SELECT * FROM `users` WHERE id = '8da39847-6933-481b-a5ca-ee6a3d2d1deb' ORDER BY `users`.`id` LIMIT 1
-
-2025/09/20 10:35:27 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:85
-[0m[33m[8.310ms] [34;1m[rows:1][0m DELETE FROM `users` WHERE id = '8da39847-6933-481b-a5ca-ee6a3d2d1deb'
-2025/09/20 10:35:27 [INFO] User deleted successfully [{user_id 8da39847-6933-481b-a5ca-ee6a3d2d1deb}]
-[GIN] 2025/09/20 - 10:35:27 | 204 |   10.949701ms |             ::1 | DELETE   "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-[GIN] 2025/09/20 - 10:35:27 | 204 |     10.9717ms |             ::1 | DELETE   "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-
-2025/09/20 10:35:27 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42 [35;1mrecord not found
-[0m[33m[2.350ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE id = '8da39847-6933-481b-a5ca-ee6a3d2d1deb' ORDER BY `users`.`id` LIMIT 1
-2025/09/20 10:35:27 [ERROR] Failed to get user by ID [{user_id 8da39847-6933-481b-a5ca-ee6a3d2d1deb} {error user not found}]
-[GIN] 2025/09/20 - 10:35:27 | 404 |     2.56491ms |             ::1 | GET      "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-[GIN] 2025/09/20 - 10:35:27 | 404 |    2.625141ms |             ::1 | GET      "/api/v1/users/8da39847-6933-481b-a5ca-ee6a3d2d1deb"
-[GIN] 2025/09/20 - 10:35:38 | 200 |      53.265µs |             ::1 | GET      "/health"
-[GIN] 2025/09/20 - 10:35:38 | 200 |     121.959µs |             ::1 | GET      "/health"
-2025/09/20 10:39:30 [INFO] Creating new user [{email valdirsb@gmail.com}]
-
-2025/09/20 10:39:30 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:56 [35;1mrecord not found
-[0m[33m[2.461ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = 'valdirsb@gmail.com' ORDER BY `users`.`id` LIMIT 1
-
-2025/09/20 10:39:30 [32m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:31
-[0m[33m[13.245ms] [34;1m[rows:1][0m INSERT INTO `users` (`id`,`username`,`email`,`password`,`created_at`,`updated_at`) VALUES ('d25fe427-d371-447b-a59e-d1c4c18b00df','valdir','valdirsb@gmail.com','$argon2id$v=19$m=65536,t=3,p=2$fa27e37c440167acdbfecf3f828fe57f$6c371352bfc83cfb52767ee7d82150fb37a0ccbafd47c08a94bfa4edae472389','2025-09-20 10:39:30.872','2025-09-20 10:39:30.872')
-2025/09/20 10:39:30 [INFO] User created successfully [{user_id d25fe427-d371-447b-a59e-d1c4c18b00df}]
-2025/09/20 10:39:30 [EMAIL] Welcome email sent to valdirsb@gmail.com (User: d25fe427-d371-447b-a59e-d1c4c18b00df)
-[GIN] 2025/09/20 - 10:39:30 | 201 |   178.26287ms |             ::1 | POST     "/api/v1/users/"
-[GIN] 2025/09/20 - 10:39:30 | 201 |    178.2949ms |             ::1 | POST     "/api/v1/users/"
-2025/09/20 13:51:17 [INFO] Shutting down server... []
-2025/09/20 13:51:17 [INFO] Server exited []
+2025/09/20 16:32:18 [31;1m/home/junior/projetos/monolito_modular/gomodular/go-modular-monolith/internal/user/repository/mysql_user_repository.go:42 [35;1mrecord not found
+[0m[33m[1.632ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE id = 'acc315a2-d177-46e4-b3d4-c331df136568' ORDER BY `users`.`id` LIMIT 1
+2025/09/20 16:32:18 [ERROR] Failed to get user by ID [{user_id acc315a2-d177-46e4-b3d4-c331df136568} {error user not found}]
+[GIN] 2025/09/20 - 16:32:18 | 404 |    1.744824ms |             ::1 | GET      "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"
+[GIN] 2025/09/20 - 16:32:18 | 404 |    1.766639ms |             ::1 | GET      "/api/v1/users/acc315a2-d177-46e4-b3d4-c331df136568"

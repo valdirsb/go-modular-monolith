@@ -81,104 +81,14 @@ func main() {
 
 // registerUserRoutes registra as rotas do módulo de usuário
 func registerUserRoutes(router *gin.Engine, container *container.Container) {
-	userService := container.MustGet("userService").(contracts.UserService)
+	userHandler := container.MustGet("userHandler").(contracts.UserHandler)
 
 	userGroup := router.Group("/api/v1/users")
 	{
-		userGroup.POST("/", createUserHandler(userService))
-		userGroup.GET("/:id", getUserHandler(userService))
-		userGroup.PUT("/:id", updateUserHandler(userService))
-		userGroup.DELETE("/:id", deleteUserHandler(userService))
-		userGroup.POST("/validate", validateUserHandler(userService))
-	}
-}
-
-// Handlers HTTP para o módulo de usuário
-
-func createUserHandler(userService contracts.UserService) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var req contracts.CreateUserRequest
-		if err := c.ShouldBindJSON(&req); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		user, err := userService.CreateUser(c.Request.Context(), req)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(http.StatusCreated, user)
-	}
-}
-
-func getUserHandler(userService contracts.UserService) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		id := c.Param("id")
-
-		user, err := userService.GetUserByID(c.Request.Context(), id)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(http.StatusOK, user)
-	}
-}
-
-func updateUserHandler(userService contracts.UserService) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		id := c.Param("id")
-
-		var req contracts.UpdateUserRequest
-		if err := c.ShouldBindJSON(&req); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		user, err := userService.UpdateUser(c.Request.Context(), id, req)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(http.StatusOK, user)
-	}
-}
-
-func deleteUserHandler(userService contracts.UserService) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		id := c.Param("id")
-
-		err := userService.DeleteUser(c.Request.Context(), id)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(http.StatusNoContent, nil)
-	}
-}
-
-func validateUserHandler(userService contracts.UserService) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var req struct {
-			Email    string `json:"email" binding:"required"`
-			Password string `json:"password" binding:"required"`
-		}
-
-		if err := c.ShouldBindJSON(&req); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		user, err := userService.ValidateUser(c.Request.Context(), req.Email, req.Password)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(http.StatusOK, user)
+		userGroup.POST("/", userHandler.CreateUser)
+		userGroup.GET("/:id", userHandler.GetUser)
+		userGroup.PUT("/:id", userHandler.UpdateUser)
+		userGroup.DELETE("/:id", userHandler.DeleteUser)
+		userGroup.POST("/validate", userHandler.ValidateUser)
 	}
 }

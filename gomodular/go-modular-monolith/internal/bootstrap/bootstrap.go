@@ -5,6 +5,7 @@ import (
 
 	"go-modular-monolith/internal/shared/database"
 	"go-modular-monolith/internal/user/adapters"
+	"go-modular-monolith/internal/user/handler"
 	"go-modular-monolith/internal/user/repository"
 	"go-modular-monolith/internal/user/service"
 	"go-modular-monolith/pkg/container"
@@ -101,9 +102,12 @@ func registerDomainServices(c *container.Container) {
 }
 
 func registerHandlers(c *container.Container) {
-	// HTTP Handlers serão registrados aqui conforme necessário
-	// Exemplo: c.RegisterSingleton("userHandler", func() interface{} {
-	//     userService := c.MustGet("userService").(contracts.UserService)
-	//     return handler.NewUserHandler(userService)
-	// })
+	// User Handler
+	c.RegisterSingleton("userHandler", func() interface{} {
+		userService := c.MustGet("userService").(contracts.UserService)
+		return handler.NewUserHandler(userService)
+	})
+
+	// Futuros handlers dos outros módulos serão registrados aqui
+	// Product Handler, Order Handler, etc.
 }
