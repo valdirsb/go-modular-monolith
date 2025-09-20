@@ -3,8 +3,10 @@ package adapters
 import (
 	"crypto/rand"
 	"crypto/subtle"
+	"encoding/hex"
 	"errors"
 	"fmt"
+	"strings"
 
 	"golang.org/x/crypto/argon2"
 )
@@ -78,26 +80,42 @@ type params struct {
 }
 
 func (h *Argon2PasswordHasher) decodeHash(encodedHash string) (p *params, salt, hash []byte, err error) {
-	vals := make([]interface{}, 6)
-	_, err = fmt.Sscanf(encodedHash, "$argon2id$v=%d$m=%d,t=%d,p=%d$%x$%x", &vals[0], &vals[1], &vals[2], &vals[3], &vals[4], &vals[5])
-	if err != nil {
-		return nil, nil, nil, err
+	parts := strings.Split(encodedHash, "$")
+	if len(parts) != 6 {
+		return nil, nil, nil, errors.New("invalid encoded hash format")
 	}
 
+	// Parse version
 	var version int
-	version = vals[0].(int)
+	if _, err := fmt.Sscanf(parts[2], "v=%d", &version); err != nil {
+		return nil, nil, nil, err
+	}
 	if version != argon2.Version {
 		return nil, nil, nil, errors.New("incompatible version of argon2")
 	}
 
+	// Parse parameters
 	p = &params{}
-	p.memory = uint32(vals[1].(int))
-	p.iterations = uint32(vals[2].(int))
-	p.parallelism = uint8(vals[3].(int))
+	var memory, iterations, parallelism int
+	if _, err := fmt.Sscanf(parts[3], "m=%d,t=%d,p=%d", &memory, &iterations, &parallelism); err != nil {
+		return nil, nil, nil, err
+	}
+
+	p.memory = uint32(memory)
+	p.iterations = uint32(iterations)
+	p.parallelism = uint8(parallelism)
 	p.keyLength = 32
 
-	salt = vals[4].([]byte)
-	hash = vals[5].([]byte)
+	// Decode salt and hash from hex
+	salt, err = hex.DecodeString(parts[4])
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	hash, err = hex.DecodeString(parts[5])
+	if err != nil {
+		return nil, nil, nil, err
+	}
 
 	return p, salt, hash, nil
 }
