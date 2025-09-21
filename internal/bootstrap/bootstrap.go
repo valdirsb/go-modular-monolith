@@ -4,9 +4,14 @@ import (
 	"log"
 
 	"go-modular-monolith/internal/modules/user/adapters"
-	"go-modular-monolith/internal/modules/user/handler"
-	"go-modular-monolith/internal/modules/user/repository"
-	"go-modular-monolith/internal/modules/user/service"
+	userHandler "go-modular-monolith/internal/modules/user/handler"
+	userRepository "go-modular-monolith/internal/modules/user/repository"
+	userService "go-modular-monolith/internal/modules/user/service"
+
+	productHandler "go-modular-monolith/internal/modules/product/handler"
+	productRepository "go-modular-monolith/internal/modules/product/repository"
+	productService "go-modular-monolith/internal/modules/product/service"
+
 	"go-modular-monolith/internal/shared/database"
 	"go-modular-monolith/pkg/container"
 	"go-modular-monolith/pkg/contracts"
@@ -76,7 +81,13 @@ func registerInfrastructure(c *container.Container) {
 	// User Repository (implementação MySQL)
 	c.RegisterSingleton("userRepository", func() interface{} {
 		db := c.MustGet("database").(*gorm.DB)
-		return repository.NewMySQLUserRepository(db)
+		return userRepository.NewMySQLUserRepository(db)
+	})
+
+	// Product Repository (implementação MySQL)
+	c.RegisterSingleton("productRepository", func() interface{} {
+		db := c.MustGet("database").(*gorm.DB)
+		return productRepository.NewMySQLProductRepository(db)
 	})
 }
 
@@ -90,7 +101,7 @@ func registerDomainServices(c *container.Container) {
 		eventPublisher := c.MustGet("eventbus").(contracts.EventPublisher)
 		logger := c.MustGet("logger").(contracts.Logger)
 
-		return service.NewUserService(
+		return userService.NewUserService(
 			userRepo,
 			passwordHasher,
 			emailService,
@@ -99,15 +110,29 @@ func registerDomainServices(c *container.Container) {
 			logger,
 		)
 	})
+
+	// Product Service
+	c.RegisterSingleton("productService", func() interface{} {
+		productRepo := c.MustGet("productRepository").(contracts.ProductRepository)
+		eventPublisher := c.MustGet("eventbus").(contracts.EventPublisher)
+
+		return productService.NewProductService(
+			productRepo,
+			eventPublisher,
+		)
+	})
 }
 
 func registerHandlers(c *container.Container) {
 	// User Handler
 	c.RegisterSingleton("userHandler", func() interface{} {
 		userService := c.MustGet("userService").(contracts.UserService)
-		return handler.NewUserHandler(userService)
+		return userHandler.NewUserHandler(userService)
 	})
 
-	// Futuros handlers dos outros módulos serão registrados aqui
-	// Product Handler, Order Handler, etc.
+	// Product Handler
+	c.RegisterSingleton("productHandler", func() interface{} {
+		productSvc := c.MustGet("productService").(contracts.ProductService)
+		return productHandler.NewProductHandler(productSvc)
+	})
 }

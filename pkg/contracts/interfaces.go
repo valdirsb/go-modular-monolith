@@ -192,6 +192,13 @@ type OrderCreatedEvent struct {
 	Total   float64 `json:"total"`
 }
 
+type ProductCreatedEvent struct {
+	ProductID  string  `json:"product_id"`
+	Name       string  `json:"name"`
+	CategoryID string  `json:"category_id"`
+	Price      float64 `json:"price"`
+}
+
 type ProductStockUpdatedEvent struct {
 	ProductID string `json:"product_id"`
 	NewStock  int    `json:"new_stock"`
@@ -220,4 +227,13 @@ type UserHandler interface {
 	UpdateUser(ctx *gin.Context)
 	DeleteUser(ctx *gin.Context)
 	ValidateUser(ctx *gin.Context)
+}
+
+type ProductHandler interface {
+	CreateProduct(ctx *gin.Context)
+	GetProduct(ctx *gin.Context)
+	UpdateProduct(ctx *gin.Context)
+	DeleteProduct(ctx *gin.Context)
+	GetProducts(ctx *gin.Context)
+	UpdateStock(ctx *gin.Context)
 }

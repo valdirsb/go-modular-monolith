@@ -44,7 +44,7 @@ func main() {
 
 	// Registrar rotas dos módulos
 	registerUserRoutes(router, container)
-	// registerProductRoutes(router, container) // Implementar conforme necessário
+	registerProductRoutes(router, container)
 	// registerOrderRoutes(router, container)   // Implementar conforme necessário
 
 	// Configurar servidor HTTP
@@ -90,5 +90,20 @@ func registerUserRoutes(router *gin.Engine, container *container.Container) {
 		userGroup.PUT("/:id", userHandler.UpdateUser)
 		userGroup.DELETE("/:id", userHandler.DeleteUser)
 		userGroup.POST("/validate", userHandler.ValidateUser)
+	}
+}
+
+// registerProductRoutes registra as rotas do módulo de produto
+func registerProductRoutes(router *gin.Engine, container *container.Container) {
+	productHandler := container.MustGet("productHandler").(contracts.ProductHandler)
+
+	productGroup := router.Group("/api/v1/products")
+	{
+		productGroup.POST("/", productHandler.CreateProduct)
+		productGroup.GET("/", productHandler.GetProducts)
+		productGroup.GET("/:id", productHandler.GetProduct)
+		productGroup.PUT("/:id", productHandler.UpdateProduct)
+		productGroup.DELETE("/:id", productHandler.DeleteProduct)
+		productGroup.PUT("/:id/stock", productHandler.UpdateStock)
 	}
 }
