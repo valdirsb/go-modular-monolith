@@ -287,9 +287,46 @@ eventBus.Subscribe(events.AlgoAconteceuEventType, func(ctx context.Context, even
 - Implementar cache quando apropriado
 - Considerar lazy loading para aggregates grandes
 
-## 🚀 Executando o Projeto
+## � Módulos Implementados
+
+### 👤 Módulo User (`internal/modules/user/`)
+- **Domain**: Entidade User com validações de domínio
+- **Service**: Criação, autenticação e gerenciamento de usuários
+- **Repository**: Persistência MySQL com GORM
+- **Handler**: Endpoints REST para CRUD completo
+- **Features**: Hash de senhas com Argon2, validação de e-mail
+
+### 📦 Módulo Product (`internal/modules/product/`)
+- **Domain**: Aggregate Product com validações de negócio (preço, estoque, nome)
+- **Service**: CRUD completo + controle de estoque + eventos
+- **Repository**: Persistência MySQL com filtros avançados (categoria, preço, nome)
+- **Handler**: Endpoints REST com query parameters para filtros
+- **Features**: 
+  - Filtros: categoria, faixa de preço, busca por nome, paginação
+  - Controle de estoque com validações
+  - Publicação de eventos (ProductCreated, StockUpdated)
+  - Seeds automáticos com 12 produtos de exemplo
+
+### 🛒 Módulo Order (`internal/modules/order/`)
+*Em desenvolvimento* - Estrutura básica criada seguindo os mesmos padrões
+
+### 🔄 Sistema de Events
+- Event Bus para comunicação assíncrona entre módulos
+- Eventos implementados: UserCreated, ProductCreated, ProductStockUpdated
+- Padrão Observer para subscribers de eventos
+
+### 🗄️ Seeds Automáticos
+- Sistema de seeds integrado ao processo de migração
+- Prevenção automática de duplicação de dados
+- Seeds de produtos com dados realistas em 7 categorias
+- Execução somente na primeira inicialização
+
+## �🚀 Executando o Projeto
 
 ```bash
+# Setup completo (recomendado)
+make setup
+
 # Instalar dependências
 go mod tidy
 
@@ -297,6 +334,8 @@ go mod tidy
 go test ./...
 
 # Executar aplicação
+make run
+# ou
 go run cmd/server/main.go
 ```
 

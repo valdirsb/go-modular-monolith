@@ -33,8 +33,13 @@ modules/{module}/
 
 ## 📖 Documentação
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - Guia completo da arquitetura e padrões
-- [DATABASE.md](./docs/DATABASE.md) - Configuração e uso do MySQL
+## 📚 Documentation
+
+- [Development Guide](docs/DEVELOPMENT.md) - Quick start and development workflow
+- [Architecture Guide](ARCHITECTURE.md) - Detailed architectural patterns and conventions
+- [API Documentation](docs/API.md) - Complete API endpoints and examples
+- [Database Schema](docs/DATABASE.md) - Database structure and relationships
+- [Database Migrations](docs/MIGRATIONS.md) - Schema evolution and seeded data
 
 ## Project Structure
 
@@ -196,24 +201,77 @@ make api-test     # Testar API completa
 make db-shell     # Conectar ao MySQL
 ```
 
-### Testando a API
+### 🧪 Testando a API
 
+#### Health Check
 ```bash
-# Testar health check
 curl http://localhost:8080/health
+```
 
+#### Testando Produtos (com dados seedados)
+```bash
+# Listar todos os produtos
+curl http://localhost:8080/api/v1/products/
+
+# Filtrar por categoria
+curl "http://localhost:8080/api/v1/products/?category_id=electronics"
+
+# Filtrar por faixa de preço
+curl "http://localhost:8080/api/v1/products/?min_price=2000&max_price=5000"
+
+# Buscar produto específico
+curl http://localhost:8080/api/v1/products/prod-001
+```
+
+#### Testando Usuários
+```bash
 # Criar usuário
-curl -X POST http://localhost:8080/api/v1/users \
+curl -X POST http://localhost:8080/api/v1/users/ \
   -H "Content-Type: application/json" \
   -d '{"username":"teste","email":"teste@example.com","password":"123456"}'
+```
 
-# Executar script completo de testes
+#### Script de Testes Automatizados
+```bash
+# Executar suite completa de testes
 ./scripts/test_api.sh
 ```
 
-### API Endpoints
+### 🌱 Dados Iniciais (Seeds)
 
-The application exposes several API endpoints for managing users, orders, and products. Refer to the respective handler files for detailed information on available routes and their functionalities.
+A aplicação **automaticamente popula** o banco com 12 produtos de exemplo nas seguintes categorias:
+- **Electronics**: iPhone 15 Pro Max, Samsung Galaxy S24 Ultra
+- **Computers**: MacBook Air M2, Dell XPS 13  
+- **Accessories**: AirPods Pro, Sony WH-1000XM5
+- **Tablets**: iPad Air, Microsoft Surface Pro 9
+- **Gaming**: Nintendo Switch OLED, PlayStation 5
+- **TV**: LG OLED C3 55"
+- **Wearables**: Apple Watch Series 9
+
+Os seeds são executados automaticamente na primeira inicialização e não duplicam dados existentes.
+
+### 📡 API Endpoints
+
+#### 👤 Users (`/api/v1/users/`)
+- `POST /` - Criar usuário
+- `GET /:id` - Buscar usuário por ID
+- `PUT /:id` - Atualizar usuário
+- `DELETE /:id` - Remover usuário
+- `POST /validate` - Validar credenciais
+
+#### 📦 Products (`/api/v1/products/`)
+- `POST /` - Criar produto
+- `GET /` - Listar produtos (com filtros: `category_id`, `min_price`, `max_price`, `name`, `limit`, `offset`)
+- `GET /:id` - Buscar produto por ID
+- `PUT /:id` - Atualizar produto
+- `DELETE /:id` - Remover produto
+- `PUT /:id/stock` - Atualizar estoque
+
+#### 🛒 Orders (`/api/v1/orders/`) 
+- *Em desenvolvimento* - Ver módulo `internal/modules/order/`
+
+#### 🔧 System
+- `GET /health` - Health check da aplicação
 
 ### Contributing
 

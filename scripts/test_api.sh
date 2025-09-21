@@ -69,4 +69,67 @@ if [ "$USER_ID" != "null" ] && [ "$USER_ID" != "" ]; then
   echo ""
 fi
 
-echo "=== Teste concluído ==="
+echo "=== Testando API de Produtos ==="
+echo ""
+
+echo "9. Listando produtos seedados..."
+PRODUCTS_RESPONSE=$(curl -s "$BASE_URL/products/")
+echo "$PRODUCTS_RESPONSE" | jq '. | length' | xargs -I {} echo "Total de produtos encontrados: {}"
+echo ""
+
+echo "10. Buscando produto específico (iPhone)..."
+curl -s "$BASE_URL/products/prod-001" | jq .
+echo ""
+
+echo "11. Filtrando produtos por categoria (electronics)..."
+curl -s "$BASE_URL/products/?category_id=electronics" | jq .
+echo ""
+
+echo "12. Criando novo produto..."
+PRODUCT_TIMESTAMP=$(date +%s)
+PRODUCT_RESPONSE=$(curl -s -X POST "$BASE_URL/products/" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"name\": \"Produto Teste ${PRODUCT_TIMESTAMP}\",
+    \"description\": \"Produto criado pelo script de teste\",
+    \"price\": 99.99,
+    \"stock\": 100,
+    \"category_id\": \"test\"
+  }")
+
+echo "$PRODUCT_RESPONSE" | jq .
+
+# Extrair ID do produto criado
+PRODUCT_ID=$(echo "$PRODUCT_RESPONSE" | jq -r '.id')
+echo ""
+
+if [ "$PRODUCT_ID" != "null" ] && [ "$PRODUCT_ID" != "" ]; then
+  echo "13. Atualizando estoque do produto criado (ID: $PRODUCT_ID)..."
+  curl -s -X PUT "$BASE_URL/products/$PRODUCT_ID/stock" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "stock": 50
+    }' | jq .
+  echo ""
+
+  echo "14. Atualizando produto criado..."
+  curl -s -X PUT "$BASE_URL/products/$PRODUCT_ID" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Produto Teste Atualizado",
+      "price": 149.99
+    }' | jq .
+  echo ""
+
+  echo "15. Deletando produto criado..."
+  curl -s -X DELETE "$BASE_URL/products/$PRODUCT_ID"
+  echo "Produto deletado"
+  echo ""
+fi
+
+echo "16. Testando filtros avançados..."
+echo "Produtos com preço entre R$ 2000 e R$ 5000:"
+curl -s "$BASE_URL/products/?min_price=2000&max_price=5000" | jq '. | length' | xargs -I {} echo "Encontrados: {} produtos"
+echo ""
+
+echo "=== Todos os testes concluídos ==="

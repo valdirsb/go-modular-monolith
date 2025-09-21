@@ -150,8 +150,48 @@ go run cmd/server/main.go
 # Você deve ver as seguintes mensagens:
 # - "Successfully connected to MySQL database"
 # - "Database migration completed successfully"
+# - "Starting database seeding..."
+# - "Successfully seeded X products" (se for primeira execução)
 # - "Server starting on port 8080"
 ```
+
+## 🌱 Seeds (Dados Iniciais)
+
+### Dados Automáticos
+
+A aplicação **automaticamente popula** o banco com dados de exemplo na primeira execução:
+
+#### Produtos (12 itens)
+- **Electronics**: iPhone 15 Pro Max, Samsung Galaxy S24 Ultra
+- **Computers**: MacBook Air M2, Dell XPS 13
+- **Accessories**: AirPods Pro, Sony WH-1000XM5  
+- **Tablets**: iPad Air, Microsoft Surface Pro 9
+- **Gaming**: Nintendo Switch OLED, PlayStation 5
+- **TV**: LG OLED C3 55"
+- **Wearables**: Apple Watch Series 9
+
+### Verificando Seeds
+
+```bash
+# Via API
+curl http://localhost:8080/api/v1/products/
+
+# Via MySQL direto
+mysql -u root -p app_db
+SELECT COUNT(*) FROM products;
+SELECT id, name, price, category_id FROM products LIMIT 5;
+
+# Via Docker
+docker exec -i go-modular-mysql mysql -u root -p123456 app_db -e "SELECT COUNT(*) FROM products;"
+```
+
+### Características dos Seeds
+
+- **Execução automática**: Na primeira inicialização da aplicação
+- **Prevenção de duplicação**: Verifica se já existem dados antes de inserir
+- **Dados realistas**: Produtos com nomes, preços e descrições reais
+- **Categorização**: Organizados em 7 categorias diferentes
+- **Performance**: Inserção em lote otimizada
 
 ## Comandos Úteis
 
