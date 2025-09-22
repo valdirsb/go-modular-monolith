@@ -81,7 +81,19 @@ func (s *OrderService) CreateOrder(ctx context.Context, req contracts.CreateOrde
 
 	// Reduzir estoque dos produtos (dentro de transação idealmente)
 	for _, item := range orderItems {
-		if err := s.productService.UpdateStock(ctx, item.ProductID, -item.Quantity); err != nil {
+		// Buscar produto novamente para ter o estoque atual
+		product, err := s.productService.GetProductByID(ctx, item.ProductID)
+		if err != nil || product == nil {
+			return nil, errors.New("product not found during stock update: " + item.ProductID)
+		}
+
+		// Calcular novo estoque (estoque atual - quantidade do pedido)
+		newStock := product.Stock - item.Quantity
+		if newStock < 0 {
+			return nil, errors.New("insufficient stock for product: " + product.Name)
+		}
+
+		if err := s.productService.UpdateStock(ctx, item.ProductID, newStock); err != nil {
 			return nil, errors.New("failed to update stock for product: " + item.ProductID)
 		}
 	}
@@ -91,7 +103,11 @@ func (s *OrderService) CreateOrder(ctx context.Context, req contracts.CreateOrde
 	if err := s.orderRepo.Create(ctx, &orderToSave.Order); err != nil {
 		// Se falhar, reverter estoque (compensação simples)
 		for _, item := range orderItems {
-			s.productService.UpdateStock(ctx, item.ProductID, item.Quantity) // Reverter
+			// Buscar produto para ter o estoque atual e restaurar
+			if product, err := s.productService.GetProductByID(ctx, item.ProductID); err == nil && product != nil {
+				restoredStock := product.Stock + item.Quantity
+				s.productService.UpdateStock(ctx, item.ProductID, restoredStock) // Reverter
+			}
 		}
 		return nil, errors.New("failed to create order")
 	}
@@ -233,8 +249,12 @@ func (s *OrderService) CancelOrder(ctx context.Context, id string) error {
 	// Restaurar estoque dos produtos (se o pedido ainda estava pendente/confirmado)
 	if existingOrder.Status == contracts.OrderStatusPending || existingOrder.Status == contracts.OrderStatusConfirmed {
 		for _, item := range existingOrder.Items {
-			if err := s.productService.UpdateStock(ctx, item.ProductID, item.Quantity); err != nil {
-				// Log do erro mas continuar o cancelamento
+			// Buscar produto para ter o estoque atual e restaurar
+			if product, err := s.productService.GetProductByID(ctx, item.ProductID); err == nil && product != nil {
+				restoredStock := product.Stock + item.Quantity
+				if err := s.productService.UpdateStock(ctx, item.ProductID, restoredStock); err != nil {
+					// Log do erro mas continuar o cancelamento
+				}
 			}
 		}
 	}
