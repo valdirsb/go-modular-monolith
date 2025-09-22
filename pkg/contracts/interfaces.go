@@ -237,3 +237,11 @@ type ProductHandler interface {
 	GetProducts(ctx *gin.Context)
 	UpdateStock(ctx *gin.Context)
 }
+
+type OrderHandler interface {
+	CreateOrder(ctx *gin.Context)
+	GetOrder(ctx *gin.Context)
+	GetOrdersByUser(ctx *gin.Context)
+	UpdateOrderStatus(ctx *gin.Context)
+	CancelOrder(ctx *gin.Context)
+}

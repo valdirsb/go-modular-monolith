@@ -132,4 +132,138 @@ echo "Produtos com preço entre R$ 2000 e R$ 5000:"
 curl -s "$BASE_URL/products/?min_price=2000&max_price=5000" | jq '. | length' | xargs -I {} echo "Encontrados: {} produtos"
 echo ""
 
+echo "=== Testando API de Pedidos ==="
+echo ""
+
+# Primeiro, criar um usuário para os pedidos
+echo "17. Criando usuário para testes de pedidos..."
+ORDER_TIMESTAMP=$(date +%s)
+ORDER_USER_RESPONSE=$(curl -s -X POST "$BASE_URL/users/" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"username\": \"customer_${ORDER_TIMESTAMP}\",
+    \"email\": \"customer_${ORDER_TIMESTAMP}@example.com\", 
+    \"password\": \"senha123456\"
+  }")
+
+echo "$ORDER_USER_RESPONSE" | jq .
+
+# Extrair ID do usuário
+ORDER_USER_ID=$(echo "$ORDER_USER_RESPONSE" | jq -r '.id')
+echo ""
+
+if [ "$ORDER_USER_ID" != "null" ] && [ "$ORDER_USER_ID" != "" ]; then
+  echo "18. Criando pedido com produtos existentes..."
+  ORDER_RESPONSE=$(curl -s -X POST "$BASE_URL/orders/" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"user_id\": \"$ORDER_USER_ID\",
+      \"items\": [
+        {
+          \"product_id\": \"prod-001\",
+          \"quantity\": 1
+        },
+        {
+          \"product_id\": \"prod-005\",
+          \"quantity\": 2
+        }
+      ]
+    }")
+
+  echo "$ORDER_RESPONSE" | jq .
+
+  # Extrair ID do pedido criado
+  ORDER_ID=$(echo "$ORDER_RESPONSE" | jq -r '.id')
+  echo ""
+
+  if [ "$ORDER_ID" != "null" ] && [ "$ORDER_ID" != "" ]; then
+    echo "19. Buscando pedido criado (ID: $ORDER_ID)..."
+    curl -s "$BASE_URL/orders/$ORDER_ID" | jq .
+    echo ""
+
+    echo "20. Listando pedidos do usuário..."
+    curl -s "$BASE_URL/orders/user/$ORDER_USER_ID" | jq .
+    echo ""
+
+    echo "21. Atualizando status do pedido para 'confirmed'..."
+    curl -s -X PUT "$BASE_URL/orders/$ORDER_ID/status" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "status": "confirmed"
+      }' | jq .
+    echo ""
+
+    echo "22. Atualizando status do pedido para 'shipped'..."
+    curl -s -X PUT "$BASE_URL/orders/$ORDER_ID/status" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "status": "shipped"
+      }' | jq .
+    echo ""
+
+    echo "23. Tentando cancelar pedido já enviado (deve falhar)..."
+    curl -s -X POST "$BASE_URL/orders/$ORDER_ID/cancel" | jq .
+    echo ""
+  fi
+
+  echo "24. Criando outro pedido para testar cancelamento..."
+  CANCEL_ORDER_RESPONSE=$(curl -s -X POST "$BASE_URL/orders/" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"user_id\": \"$ORDER_USER_ID\",
+      \"items\": [
+        {
+          \"product_id\": \"prod-002\",
+          \"quantity\": 1
+        }
+      ]
+    }")
+
+  CANCEL_ORDER_ID=$(echo "$CANCEL_ORDER_RESPONSE" | jq -r '.id')
+  echo ""
+
+  if [ "$CANCEL_ORDER_ID" != "null" ] && [ "$CANCEL_ORDER_ID" != "" ]; then
+    echo "25. Cancelando pedido pendente (ID: $CANCEL_ORDER_ID)..."
+    curl -s -X POST "$BASE_URL/orders/$CANCEL_ORDER_ID/cancel" | jq .
+    echo ""
+
+    echo "26. Verificando status do pedido cancelado..."
+    curl -s "$BASE_URL/orders/$CANCEL_ORDER_ID" | jq .
+    echo ""
+  fi
+
+  echo "27. Testando criação de pedido com produto inexistente (deve falhar)..."
+  curl -s -X POST "$BASE_URL/orders/" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"user_id\": \"$ORDER_USER_ID\",
+      \"items\": [
+        {
+          \"product_id\": \"prod-inexistente\",
+          \"quantity\": 1
+        }
+      ]
+    }" | jq .
+  echo ""
+
+  echo "28. Testando criação de pedido com quantidade maior que o estoque (deve falhar)..."
+  curl -s -X POST "$BASE_URL/orders/" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"user_id\": \"$ORDER_USER_ID\",
+      \"items\": [
+        {
+          \"product_id\": \"prod-001\",
+          \"quantity\": 999
+        }
+      ]
+    }" | jq .
+  echo ""
+
+  echo "29. Cleanup - Deletando usuário de teste dos pedidos..."
+  curl -s -X DELETE "$BASE_URL/users/$ORDER_USER_ID"
+  echo "Usuário deletado"
+  echo ""
+fi
+
 echo "=== Todos os testes concluídos ==="
