@@ -43,13 +43,21 @@ func (s *OrderService) CreateOrder(ctx context.Context, req contracts.CreateOrde
 		return nil, errors.New("invalid user ID")
 	}
 
-	// Validar produtos e calcular preços
+	// Cache de produtos para evitar múltiplas consultas
+	productCache := make(map[string]*contracts.Product)
+
+	// Validar produtos, calcular preços e cachear produtos
 	orderItems := make([]contracts.OrderItem, len(req.Items))
 	for i, item := range req.Items {
-		// Buscar produto para validar e obter preço atual
-		product, err := s.productService.GetProductByID(ctx, item.ProductID)
-		if err != nil || product == nil {
-			return nil, errors.New("invalid product ID: " + item.ProductID)
+		// Buscar produto (apenas uma vez por produto único)
+		product, exists := productCache[item.ProductID]
+		if !exists {
+			product, err = s.productService.GetProductByID(ctx, item.ProductID)
+			if err != nil || product == nil {
+				return nil, errors.New("invalid product ID: " + item.ProductID)
+			}
+			// Cachear produto para futuras consultas
+			productCache[item.ProductID] = product
 		}
 
 		// Verificar se há estoque suficiente
@@ -79,34 +87,46 @@ func (s *OrderService) CreateOrder(ctx context.Context, req contracts.CreateOrde
 		return nil, err
 	}
 
-	// Reduzir estoque dos produtos (dentro de transação idealmente)
-	for _, item := range orderItems {
-		// Buscar produto novamente para ter o estoque atual
-		product, err := s.productService.GetProductByID(ctx, item.ProductID)
-		if err != nil || product == nil {
-			return nil, errors.New("product not found during stock update: " + item.ProductID)
-		}
+	// Reduzir estoque dos produtos (usar cache para evitar consultas desnecessárias)
+	updatedProducts := make(map[string]int) // Controla quantidade consumida por produto
 
-		// Calcular novo estoque (estoque atual - quantidade do pedido)
+	for _, item := range orderItems {
+		// Usar produto do cache
+		product := productCache[item.ProductID]
+
+		// Somar quantidade total se o mesmo produto aparece múltiplas vezes no pedido
+		totalQuantityUsed := updatedProducts[item.ProductID] + item.Quantity
+
+		// Calcular novo estoque (estoque atual - quantidade do item)
 		newStock := product.Stock - item.Quantity
 		if newStock < 0 {
 			return nil, errors.New("insufficient stock for product: " + product.Name)
 		}
 
-		if err := s.productService.UpdateStock(ctx, item.ProductID, newStock); err != nil {
-			return nil, errors.New("failed to update stock for product: " + item.ProductID)
+		// Atualizar cache local apenas se necessário
+		if updatedProducts[item.ProductID] == 0 || totalQuantityUsed != updatedProducts[item.ProductID] {
+
+			// Atualizar cache com novo estoque
+			product.Stock = newStock
+			updatedProducts[item.ProductID] = totalQuantityUsed
+		}
+	}
+
+	// Aplicar todas as atualizações de estoque no banco
+	for k, v := range productCache {
+		if err := s.productService.UpdateStock(ctx, k, v.Stock); err != nil {
+			return nil, errors.New("failed to update stock for product: " + k)
 		}
 	}
 
 	// Persistir pedido
 	orderToSave := orderAggregate.GetOrder()
 	if err := s.orderRepo.Create(ctx, &orderToSave.Order); err != nil {
-		// Se falhar, reverter estoque (compensação simples)
-		for _, item := range orderItems {
-			// Buscar produto para ter o estoque atual e restaurar
-			if product, err := s.productService.GetProductByID(ctx, item.ProductID); err == nil && product != nil {
-				restoredStock := product.Stock + item.Quantity
-				s.productService.UpdateStock(ctx, item.ProductID, restoredStock) // Reverter
+		// Se falhar, reverter estoque usando o cache (mais eficiente)
+		for productID, quantityUsed := range updatedProducts {
+			if product := productCache[productID]; product != nil {
+				restoredStock := product.Stock + quantityUsed
+				s.productService.UpdateStock(ctx, productID, restoredStock) // Reverter
 			}
 		}
 		return nil, errors.New("failed to create order")
