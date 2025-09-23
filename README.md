@@ -17,7 +17,8 @@ Este projeto implementa um **monólito modular** em Go seguindo as melhores prá
 Todos os módulos de domínio estão organizados dentro de `internal/modules/` para melhor organização e escalabilidade:
 
 - **User** (`internal/modules/user/`): Gerenciamento de usuários com autenticação e persistência MySQL
-- **Product** (`internal/modules/product/`): Catálogo de produtos com controle de estoque 
+- **Product** (`internal/modules/product/`): Catálogo de produtos com controle de estoque
+- **Order** (`internal/modules/order/`): Sistema de pedidos com gestão de estoque e eventos 
 - **Order** (`internal/modules/order/`): Processamento de pedidos com estados
 
 ### 🔧 Estrutura de Cada Módulo
@@ -268,7 +269,11 @@ Os seeds são executados automaticamente na primeira inicialização e não dupl
 - `PUT /:id/stock` - Atualizar estoque
 
 #### 🛒 Orders (`/api/v1/orders/`) 
-- *Em desenvolvimento* - Ver módulo `internal/modules/order/`
+- `POST /` - Criar pedido
+- `GET /:id` - Buscar pedido por ID
+- `PUT /:id/status` - Atualizar status do pedido
+- `POST /:id/cancel` - Cancelar pedido
+- `GET /user/:user_id` - Listar pedidos do usuário
 
 #### 🔧 System
 - `GET /health` - Health check da aplicação

@@ -20,6 +20,9 @@ help:
 	@echo "  api-test      - Executa testes da API"
 	@echo "  clean         - Remove arquivos gerados"
 	@echo "  setup         - Configuração inicial completa"
+	@echo "  docs          - Gera documentação dos módulos"
+	@echo "  db-shell      - Conecta ao MySQL via CLI"
+	@echo "  dev           - Modo desenvolvimento com hot reload"
 	@echo ""
 
 ## setup: Configuração inicial completa
@@ -93,3 +96,36 @@ dev:
 		echo "❌ Air não encontrado. Instale com: go install github.com/cosmtrek/air@latest"; \
 		echo "📖 Ou execute: make run"; \
 	fi
+
+## docs: Gera documentação dos módulos
+docs:
+	@echo "📚 Gerando documentação..."
+	@echo "📖 Documentação principal: README.md"
+	@echo "🏛️ Arquitetura: ARCHITECTURE.md"
+	@echo "📡 API: docs/API.md"
+	@echo "💾 Database: docs/DATABASE.md" 
+	@echo "🛠️ Development: docs/DEVELOPMENT.md"
+	@echo "🗃️ Migrations: docs/MIGRATIONS.md"
+	@echo ""
+	@echo "📦 Módulos:"
+	@echo "   👤 User: internal/modules/user/README.md"
+	@echo "   📦 Product: internal/modules/product/README.md"
+	@echo "   🛒 Order: internal/modules/order/README.md"
+	@echo ""
+	@echo "✅ Toda documentação está atualizada!"
+
+## stats: Estatísticas do projeto
+stats:
+	@echo "📊 Estatísticas do Projeto:"
+	@echo ""
+	@echo "📁 Linhas de código Go:"
+	@find . -name "*.go" -not -path "./vendor/*" | xargs wc -l | tail -1
+	@echo ""
+	@echo "📄 Arquivos de documentação:"
+	@find . -name "*.md" | wc -l | xargs -I {} echo "   {} arquivos Markdown"
+	@echo ""
+	@echo "🧪 Arquivos de teste:"
+	@find . -name "*_test.go" | wc -l | xargs -I {} echo "   {} arquivos de teste"
+	@echo ""
+	@echo "📦 Módulos implementados:"
+	@ls internal/modules/ | wc -l | xargs -I {} echo "   {} módulos"

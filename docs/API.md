@@ -172,12 +172,118 @@ Content-Type: application/json
 
 ## 🛒 Orders Module
 
-*Em desenvolvimento* - Endpoints planejados:
-- `POST /orders/` - Criar pedido
-- `GET /orders/:id` - Buscar pedido
-- `GET /orders/` - Listar pedidos do usuário
-- `PUT /orders/:id/status` - Atualizar status
-- `DELETE /orders/:id` - Cancelar pedido
+### Create Order
+```http
+POST /orders/
+Content-Type: application/json
+
+{
+  "user_id": "uuid-of-user",
+  "items": [
+    {
+      "product_id": "prod-001",
+      "quantity": 2
+    },
+    {
+      "product_id": "prod-002", 
+      "quantity": 1
+    }
+  ]
+}
+```
+
+**Response (201):**
+```json
+{
+  "id": "uuid-generated",
+  "user_id": "uuid-of-user",
+  "items": [
+    {
+      "product_id": "prod-001",
+      "quantity": 2,
+      "price": 8999.99
+    },
+    {
+      "product_id": "prod-002",
+      "quantity": 1,
+      "price": 2499.99
+    }
+  ],
+  "status": "pending",
+  "total": 20499.97,
+  "created_at": "2025-09-23T20:33:20Z",
+  "updated_at": "2025-09-23T20:33:20Z"
+}
+```
+
+### Get Order
+```http
+GET /orders/:id
+```
+
+**Response (200):**
+```json
+{
+  "id": "order-uuid",
+  "user_id": "user-uuid",
+  "items": [...],
+  "status": "pending",
+  "total": 20499.97,
+  "created_at": "2025-09-23T20:33:20Z",
+  "updated_at": "2025-09-23T20:33:20Z"
+}
+```
+
+### Get Orders by User
+```http
+GET /orders/user/:user_id
+```
+
+**Response (200):**
+```json
+[
+  {
+    "id": "order-uuid-1",
+    "user_id": "user-uuid",
+    "items": [...],
+    "status": "pending",
+    "total": 20499.97,
+    "created_at": "2025-09-23T20:33:20Z",
+    "updated_at": "2025-09-23T20:33:20Z"
+  }
+]
+```
+
+### Update Order Status
+```http
+PUT /orders/:id/status
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+```
+
+**Valid Status Values:**
+- `pending` - Pedido pendente
+- `confirmed` - Pedido confirmado
+- `shipped` - Pedido enviado
+- `delivered` - Pedido entregue
+- `cancelled` - Pedido cancelado
+
+### Cancel Order
+```http
+POST /orders/:id/cancel
+```
+
+**Response (200):**
+```json
+{
+  "id": "order-uuid",
+  "status": "cancelled",
+  "message": "Order cancelled successfully"
+}
+```
 
 ## 📊 Seeded Data
 
@@ -222,6 +328,11 @@ A aplicação inicia com 12 produtos pré-carregados:
 
 ### User Events  
 - `UserCreatedEventType` - Quando um usuário é criado
+
+### Order Events
+- `OrderCreatedEventType` - Quando um pedido é criado
+- `OrderStatusUpdatedEventType` - Quando status do pedido é atualizado
+- `OrderCancelledEventType` - Quando um pedido é cancelado
 
 ## ❌ Error Responses
 
@@ -268,4 +379,19 @@ curl -X POST http://localhost:8080/api/v1/users/ \
 
 # Filter products by category
 curl "http://localhost:8080/api/v1/products/?category_id=electronics"
+
+# Create order
+curl -X POST http://localhost:8080/api/v1/orders/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "user-uuid",
+    "items": [
+      {"product_id": "prod-001", "quantity": 1}
+    ]
+  }'
+
+# Update order status
+curl -X PUT http://localhost:8080/api/v1/orders/order-uuid/status \
+  -H "Content-Type: application/json" \
+  -d '{"status": "confirmed"}'
 ```

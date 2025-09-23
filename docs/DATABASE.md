@@ -139,6 +139,32 @@ As seguintes tabelas serão criadas:
   - created_at (TIMESTAMP)
   - updated_at (TIMESTAMP)
 
+- **products**: Catálogo de produtos
+  - id (VARCHAR(36) PRIMARY KEY)
+  - name (VARCHAR(255) NOT NULL)
+  - description (TEXT)
+  - price (DECIMAL(10,2) NOT NULL)
+  - stock (INT DEFAULT 0)
+  - category_id (VARCHAR(100))
+  - created_at (TIMESTAMP)
+  - updated_at (TIMESTAMP)
+
+- **orders**: Sistema de pedidos
+  - id (VARCHAR(36) PRIMARY KEY)
+  - user_id (VARCHAR(36) NOT NULL)
+  - status (ENUM: pending, confirmed, shipped, delivered, cancelled)
+  - total (DECIMAL(10,2) NOT NULL)
+  - created_at (TIMESTAMP)
+  - updated_at (TIMESTAMP)
+
+- **order_items**: Itens dos pedidos
+  - id (VARCHAR(36) PRIMARY KEY)
+  - order_id (VARCHAR(36) NOT NULL)
+  - product_id (VARCHAR(36) NOT NULL)
+  - quantity (INT NOT NULL)
+  - price (DECIMAL(10,2) NOT NULL)
+  - created_at (TIMESTAMP)
+
 ## Testando a Conexão
 
 Para testar se a conexão está funcionando:
