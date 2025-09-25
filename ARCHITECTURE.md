@@ -89,7 +89,76 @@ Enterprise Business Rules (Domain)
 - **Domain Services**: Lógica que não pertence a uma entidade específica
 - **Repositories**: Interfaces para persistência
 
-## 🔧 Como Adicionar um Novo Módulo
+## � Módulos Implementados
+
+### User Module (`internal/modules/user/`)
+**Responsabilidades:**
+- Gerenciamento de usuários (CRUD)
+- Autenticação com hash de senha
+- Validação de credenciais
+
+**Principais Componentes:**
+- `domain/user.go`: Agregado de usuário com validações
+- `service/user_service.go`: Casos de uso (criar, buscar, autenticar)
+- `repository/mysql_user_repository.go`: Persistência MySQL
+- `handler/user_handler.go`: Endpoints HTTP
+- `adapters/password_hasher.go`: Hash de senhas com Argon2
+
+**Endpoints:**
+- `POST /api/v1/users/` - Criar usuário
+- `GET /api/v1/users/:id` - Buscar usuário
+- `PUT /api/v1/users/:id` - Atualizar usuário
+- `DELETE /api/v1/users/:id` - Remover usuário
+- `POST /api/v1/users/validate` - Validar credenciais
+
+### Product Module (`internal/modules/product/`)
+**Responsabilidades:**
+- Catálogo de produtos com categorias
+- Controle de estoque
+- Filtros avançados de busca
+
+**Principais Componentes:**
+- `domain/product.go`: Entidade produto com validações de negócio
+- `service/product_service.go`: Lógica de negócio e estoque
+- `repository/product_repository.go`: Persistência com filtros
+- `handler/product_handler.go`: API REST com query parameters
+
+**Endpoints:**
+- `POST /api/v1/products/` - Criar produto
+- `GET /api/v1/products/` - Listar com filtros (categoria, preço, nome)
+- `GET /api/v1/products/:id` - Buscar produto específico
+- `PUT /api/v1/products/:id` - Atualizar produto
+- `DELETE /api/v1/products/:id` - Remover produto
+- `PUT /api/v1/products/:id/stock` - Atualizar estoque
+
+### Order Module (`internal/modules/order/`)
+**Responsabilidades:**
+- Sistema de pedidos com múltiplos itens
+- Gestão de status do pedido
+- Integração com controle de estoque
+- Eventos de negócio (pedido criado, status atualizado)
+
+**Principais Componentes:**
+- `domain/order.go`: Agregado de pedido com validações e transições de status
+- `service/order_service.go`: Orquestração de criação de pedidos, validações de estoque, cache de produtos
+- `repository/mysql_order_repository.go`: Persistência transacional
+- `handler/order_handler.go`: Endpoints HTTP RESTful
+
+**Endpoints:**
+- `POST /api/v1/orders/` - Criar pedido (com validação de estoque)
+- `GET /api/v1/orders/:id` - Buscar pedido específico
+- `GET /api/v1/orders/user/:user_id` - Listar pedidos do usuário
+- `PUT /api/v1/orders/:id/status` - Atualizar status
+- `POST /api/v1/orders/:id/cancel` - Cancelar pedido (com reversão de estoque)
+
+**Recursos Avançados:**
+- Cache de produtos para otimização de performance
+- Agregação de quantidades por produto
+- Transações para garantir consistência
+- Reversão automática de estoque em cancelamentos
+- Eventos assíncronos para módulos interessados
+
+## �🔧 Como Adicionar um Novo Módulo
 
 ### 1. Criar a Estrutura de Diretórios
 

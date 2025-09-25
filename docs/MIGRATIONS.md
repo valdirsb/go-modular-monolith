@@ -15,10 +15,11 @@ Este documento registra a evolução da estrutura do banco de dados.
    - Category support and advanced filtering
    - Stock management fields
 
-3. **Orders Module (v1.2)** *(Planejado)*
+3. **Orders Module (v1.2)**
    - Orders table with relationships
    - Order items for product quantities
    - Order status management
+   - Stock integration with automatic updates
 
 ## 📊 Current Tables
 
@@ -53,13 +54,13 @@ CREATE TABLE products (
 );
 ```
 
-### orders *(Planejado para v1.2)*
+### orders
 ```sql
 CREATE TABLE orders (
     id VARCHAR(36) PRIMARY KEY,
     user_id VARCHAR(36) NOT NULL,
     status ENUM('pending', 'confirmed', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
-    total_amount DECIMAL(10,2) NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -69,15 +70,14 @@ CREATE TABLE orders (
 );
 ```
 
-### order_items *(Planejado para v1.2)*
+### order_items
 ```sql
 CREATE TABLE order_items (
     id VARCHAR(36) PRIMARY KEY,
     order_id VARCHAR(36) NOT NULL,
     product_id VARCHAR(36) NOT NULL,
     quantity INT NOT NULL,
-    unit_price DECIMAL(10,2) NOT NULL,
-    total_price DECIMAL(10,2) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT,

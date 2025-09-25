@@ -12,6 +12,10 @@ import (
 	productRepository "go-modular-monolith/internal/modules/product/repository"
 	productService "go-modular-monolith/internal/modules/product/service"
 
+	orderHandler "go-modular-monolith/internal/modules/order/handler"
+	orderRepository "go-modular-monolith/internal/modules/order/repository"
+	orderService "go-modular-monolith/internal/modules/order/service"
+
 	"go-modular-monolith/internal/shared/database"
 	"go-modular-monolith/pkg/container"
 	"go-modular-monolith/pkg/contracts"
@@ -89,6 +93,12 @@ func registerInfrastructure(c *container.Container) {
 		db := c.MustGet("database").(*gorm.DB)
 		return productRepository.NewMySQLProductRepository(db)
 	})
+
+	// Order Repository (implementação MySQL)
+	c.RegisterSingleton("orderRepository", func() interface{} {
+		db := c.MustGet("database").(*gorm.DB)
+		return orderRepository.NewMySQLOrderRepository(db)
+	})
 }
 
 func registerDomainServices(c *container.Container) {
@@ -121,6 +131,21 @@ func registerDomainServices(c *container.Container) {
 			eventPublisher,
 		)
 	})
+
+	// Order Service
+	c.RegisterSingleton("orderService", func() interface{} {
+		orderRepo := c.MustGet("orderRepository").(contracts.OrderRepository)
+		productSvc := c.MustGet("productService").(contracts.ProductService)
+		userSvc := c.MustGet("userService").(contracts.UserService)
+		eventPublisher := c.MustGet("eventbus").(contracts.EventPublisher)
+
+		return orderService.NewOrderService(
+			orderRepo,
+			productSvc,
+			userSvc,
+			eventPublisher,
+		)
+	})
 }
 
 func registerHandlers(c *container.Container) {
@@ -134,5 +159,11 @@ func registerHandlers(c *container.Container) {
 	c.RegisterSingleton("productHandler", func() interface{} {
 		productSvc := c.MustGet("productService").(contracts.ProductService)
 		return productHandler.NewProductHandler(productSvc)
+	})
+
+	// Order Handler
+	c.RegisterSingleton("orderHandler", func() interface{} {
+		orderSvc := c.MustGet("orderService").(contracts.OrderService)
+		return orderHandler.NewOrderHandler(orderSvc)
 	})
 }
