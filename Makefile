@@ -12,7 +12,8 @@ help:
 	@echo "Comandos disponíveis:"
 	@echo ""
 	@echo "  build         - Compila a aplicação"
-	@echo "  run           - Executa a aplicação"
+	@echo "  run           - Executa a aplicação tradicional"
+	@echo "  run-framework - Executa a aplicação com framework"
 	@echo "  test          - Executa os testes"
 	@echo "  docker-up     - Inicia MySQL via Docker Compose"
 	@echo "  docker-down   - Para e remove containers Docker"
@@ -20,9 +21,11 @@ help:
 	@echo "  api-test      - Executa testes da API"
 	@echo "  clean         - Remove arquivos gerados"
 	@echo "  setup         - Configuração inicial completa"
+	@echo "  setup-framework - Configuração inicial do framework"
 	@echo "  docs          - Gera documentação dos módulos"
 	@echo "  db-shell      - Conecta ao MySQL via CLI"
 	@echo "  dev           - Modo desenvolvimento com hot reload"
+	@echo "  framework-info - Mostra informações do framework"
 	@echo ""
 
 ## setup: Configuração inicial completa
@@ -34,7 +37,25 @@ setup:
 	@echo "⏳ Aguardando MySQL inicializar..."
 	@sleep 10
 	@make build
-	@echo "🎉 Setup concluído! Execute 'make run' para iniciar."
+	@echo "🎉 Setup concluído! Execute 'make run' para aplicação tradicional ou 'make run-framework' para usar o framework."
+
+## setup-framework: Configuração inicial do framework
+setup-framework:
+	@echo "🚀 Configurando framework..."
+	@echo "📝 Gerando dependências do framework..."
+	@go mod tidy
+	@echo "📋 Configuração do framework disponível em framework.yaml"
+	@echo "🎉 Framework configurado! Execute 'make run-framework' para iniciar."
+
+## framework-info: Mostra informações do framework  
+framework-info:
+	@echo "📋 Informações do Framework:"
+	@echo ""
+	@echo "Configuração: framework.yaml"
+	@echo "Comando: make run-framework"
+	@echo "Health Check: http://localhost:8080/health"
+	@echo "Framework Info: http://localhost:8080/framework/info"
+	@echo ""
 
 ## build: Compila a aplicação
 build:
@@ -43,10 +64,15 @@ build:
 	@go build -o $(BINARY_NAME) cmd/server/main.go
 	@echo "✅ Aplicação compilada: $(BINARY_NAME)"
 
-## run: Executa a aplicação
+## run: Executa a aplicação tradicional
 run:
 	@echo "🚀 Iniciando aplicação..."
 	@go run cmd/server/main.go
+
+## run-framework: Executa a aplicação com framework
+run-framework:
+	@echo "🚀 Iniciando aplicação com framework..."
+	@go run cmd/server/main_framework.go
 
 ## test: Executa os testes
 test:

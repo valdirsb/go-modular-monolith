@@ -1,0 +1,110 @@
+# Go Modular Framework Configuration
+# Enable/disable features by setting to true/false
+
+framework:
+  name: "go-modular-framework"
+  version: "1.0.0"
+
+# Core features (always enabled)
+core:
+  http_server: true
+  dependency_injection: true
+  event_system: true
+  logging: true
+  database_migrations: true
+
+# Database providers
+database:
+  mysql: true
+  postgresql: false
+  mongodb: false
+  sqlite: false
+
+# Cache providers
+cache:
+  redis: false
+  memcached: false
+  in_memory: false
+
+# Communication protocols
+protocols:
+  http: true
+  grpc: false
+  websockets: false
+  graphql: false
+
+# External integrations
+integrations:
+  # Authentication & Authorization
+  jwt: true
+  oauth2: false
+  firebase_auth: false
+  auth0: false
+  
+  # Cloud services
+  aws_s3: false
+  google_cloud_storage: false
+  azure_blob: false
+  
+  # Payment gateways
+  stripe: false
+  paypal: false
+  mercado_pago: false
+  pix: false
+  
+  # Maps & Location
+  google_maps: false
+  mapbox: false
+  
+  # Messaging
+  rabbitmq: false
+  kafka: false
+  sqs: false
+  pub_sub: false
+  
+  # Email services
+  sendgrid: false
+  ses: false
+  smtp: false
+  
+  # Push notifications
+  firebase_messaging: false
+  apns: false
+  
+  # Monitoring & Observability
+  prometheus: false
+  jaeger: false
+  datadog: false
+  new_relic: false
+  
+  # External APIs
+  social_media: false
+  weather_api: false
+  currency_api: false
+
+# Security features
+security:
+  rate_limiting: false
+  cors: true
+  helmet: false
+  csrf_protection: false
+  encryption: false
+
+# Development tools
+development:
+  swagger: false
+  debug_mode: true
+  hot_reload: false
+  profiler: false
+
+# Business modules (your domain modules)
+modules:
+  user: true
+  product: true
+  order: true
+  # Add more modules as needed
+  notification: false
+  analytics: false
+  audit: false
+  inventory: false
+  billing: false
