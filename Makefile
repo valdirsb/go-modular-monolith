@@ -72,7 +72,7 @@ run:
 ## run-framework: Executa a aplicação com framework
 run-framework:
 	@echo "🚀 Iniciando aplicação com framework..."
-	@go run cmd/server/main_framework.go
+	@go run cmd/server/main_framework/main.go
 
 ## test: Executa os testes
 test:

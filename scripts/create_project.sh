@@ -5,80 +5,7 @@
 
 set -e
 
-PROJECT_NAME="$1"
-TEMPLATE="${2:-basic}"
-
-if [ -z "$PROJECT_NAME" ]; then
-    echo "❌ Nome do projeto é obrigatório"
-    echo "Usage: $0 <project-name> [template]"
-    echo ""
-    echo "Templates disponíveis:"
-    echo "  basic    - Projeto básico com HTTP + MySQL"
-    echo "  api      - API REST completa"
-    echo "  grpc     - Serviço gRPC"
-    echo "  payment  - Sistema de pagamentos"
-    echo "  maps     - Integração com mapas"
-    echo "  full     - Todas as funcionalidades ativadas"
-    exit 1
-fi
-
-echo "🚀 Criando projeto: $PROJECT_NAME"
-echo "📋 Template: $template"
-
-# Criar diretório do projeto
-mkdir -p "$PROJECT_NAME"
-cd "$PROJECT_NAME"
-
-# Copiar estrutura base
-cp -r ../cmd .
-cp -r ../internal .
-cp -r ../pkg .
-cp ../go.mod.template go.mod
-cp ../go.sum .
-cp ../Makefile .
-cp ../docker-compose.yml .
-cp ../.env.example .env
-
-# Atualizar go.mod com o nome do projeto
-sed -i "s/go-modular-monolith/$PROJECT_NAME/g" go.mod
-
-# Gerar framework.yaml baseado no template
-case "$TEMPLATE" in
-    "basic")
-        generate_basic_config
-        ;;
-    "api")
-        generate_api_config
-        ;;
-    "grpc")
-        generate_grpc_config
-        ;;
-    "payment")
-        generate_payment_config
-        ;;
-    "maps")
-        generate_maps_config
-        ;;
-    "full")
-        generate_full_config
-        ;;
-    *)
-        echo "❌ Template '$TEMPLATE' não encontrado"
-        exit 1
-        ;;
-esac
-
-# Atualizar imports nos arquivos Go
-find . -name "*.go" -exec sed -i "s/go-modular-monolith/$PROJECT_NAME/g" {} \;
-
-echo "✅ Projeto criado com sucesso!"
-echo ""
-echo "Próximos passos:"
-echo "1. cd $PROJECT_NAME"
-echo "2. make setup-framework"
-echo "3. make docker-up"
-echo "4. make run-framework"
-echo ""
+# Definir funções primeiro
 
 generate_basic_config() {
     cat > framework.yaml << 'EOF'
@@ -299,3 +226,86 @@ modules:
   audit: true
 EOF
 }
+
+# Função para gerar configuração do framework baseada no template
+generate_framework_config() {
+    local template="$1"
+    case "$template" in
+        "basic")
+            generate_basic_config
+            ;;
+        "api")
+            generate_api_config
+            ;;
+        "payment")
+            generate_payment_config
+            ;;
+        "maps")
+            generate_maps_config
+            ;;
+        "full")
+            generate_full_config
+            ;;
+        *)
+            echo "❌ Template '$template' não encontrado"
+            exit 1
+            ;;
+    esac
+}
+
+# Script principal
+
+PROJECT_NAME="$1"
+TEMPLATE="${2:-basic}"
+
+if [ -z "$PROJECT_NAME" ]; then
+    echo "❌ Nome do projeto é obrigatório"
+    echo "Usage: $0 <project-name> [template]"
+    echo ""
+    echo "Templates disponíveis:"
+    echo "  basic    - Projeto básico com HTTP + MySQL"
+    echo "  api      - API REST completa"
+    echo "  payment  - Sistema de pagamentos"
+    echo "  maps     - Integração com mapas"
+    echo "  full     - Todas as funcionalidades ativadas"
+    exit 1
+fi
+
+echo "🚀 Criando projeto: $PROJECT_NAME"
+echo "📋 Template: $TEMPLATE"
+
+# Criar diretório do projeto
+mkdir -p "$PROJECT_NAME"
+cd "$PROJECT_NAME"
+
+# Copiar estrutura base
+cp -r ../cmd .
+cp -r ../internal .
+cp -r ../pkg .
+cp ../go.mod go.mod
+cp ../go.sum .
+cp ../Makefile .
+cp ../docker-compose.yml .
+if [ -f "../.env.example" ]; then
+    cp ../.env.example .env
+elif [ -f "../.env" ]; then
+    cp ../.env .env.example
+fi
+
+# Atualizar go.mod com o nome do projeto
+sed -i "s/go-modular-monolith/$PROJECT_NAME/g" go.mod
+
+# Gerar framework.yaml baseado no template
+generate_framework_config "$TEMPLATE"
+
+# Atualizar imports nos arquivos Go
+find . -name "*.go" -exec sed -i "s/go-modular-monolith/$PROJECT_NAME/g" {} \;
+
+echo "✅ Projeto criado com sucesso!"
+echo ""
+echo "Próximos passos:"
+echo "1. cd $PROJECT_NAME"
+echo "2. make setup-framework"
+echo "3. make docker-up"
+echo "4. make run-framework"
+echo ""

@@ -109,3 +109,39 @@ func (f *Framework) ListEnabledFeatures() map[string][]string {
 
 	return features
 }
+
+// IsEnabled checks if a specific feature or module is enabled
+func (f *Framework) IsEnabled(category, feature string) bool {
+	switch category {
+	case "modules":
+		if enabled, exists := f.config.Modules[feature]; exists {
+			return enabled
+		}
+	case "core":
+		switch feature {
+		case "http_server":
+			return f.config.Core.HTTPServer
+		case "event_system":
+			return f.config.Core.EventSystem
+		case "logging":
+			return f.config.Core.Logging
+		}
+	case "database":
+		switch feature {
+		case "mysql":
+			return f.config.Database.MySQL
+		case "postgresql":
+			return f.config.Database.PostgreSQL
+		}
+	case "integrations":
+		switch feature {
+		case "stripe":
+			return f.config.Integrations.Stripe
+		case "google_maps":
+			return f.config.Integrations.GoogleMaps
+		case "pix":
+			return f.config.Integrations.PIX
+		}
+	}
+	return false
+}
