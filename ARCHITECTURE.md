@@ -14,7 +14,6 @@ Este projeto implementa um **monólito modular** em Go seguindo os melhores padr
 ### Estrutura do Projeto
 
 ```
-```
 go-modular-monolith/
 ├── cmd/                          # Pontos de entrada da aplicação
 │   └── server/
@@ -50,7 +49,6 @@ go-modular-monolith/
 │   ├── container/               # DI Container
 │   │   └── container.go
 │   └── events/                  # Sistema de eventos
-```
 │       └── eventbus.go
 ├── go.mod
 ├── go.sum
