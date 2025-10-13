@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "go-modular-monolith/proto";
+
+// Product service definition
+service ProductService {
+  // Create a new product
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  
+  // Get product by ID
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  
+  // Update product
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  
+  // Delete product
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+  
+  // List products with pagination
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  
+  // Search products
+  rpc SearchProducts(SearchProductsRequest) returns (ListProductsResponse);
+}
+
+// Product message
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  int32 quantity = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+// Create Product
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+  int32 quantity = 4;
+}
+
+message CreateProductResponse {
+  Product product = 1;
+  string message = 2;
+}
+
+// Get Product
+message GetProductRequest {
+  string id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+  string message = 2;
+}
+
+// Update Product
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  int32 quantity = 5;
+}
+
+message UpdateProductResponse {
+  Product product = 1;
+  string message = 2;
+}
+
+// Delete Product
+message DeleteProductRequest {
+  string id = 1;
+}
+
+message DeleteProductResponse {
+  string message = 1;
+}
+
+// List Products
+message ListProductsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+  string message = 5;
+}
+
+// Search Products
+message SearchProductsRequest {
+  string query = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}

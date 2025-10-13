@@ -282,6 +282,7 @@ cd "$PROJECT_NAME"
 cp -r ../cmd .
 cp -r ../internal .
 cp -r ../pkg .
+cp -r ../proto .
 cp ../go.mod go.mod
 cp ../go.sum .
 cp ../Makefile .

@@ -142,6 +142,23 @@ func (f *Framework) IsEnabled(category, feature string) bool {
 		case "pix":
 			return f.config.Integrations.PIX
 		}
+	case "protocols":
+		switch feature {
+		case "grpc":
+			return f.config.Protocols.GRPC
+		case "http":
+			return f.config.Protocols.HTTP
+		}
 	}
 	return false
+}
+
+// RegisterProvider registers a provider with the framework
+func (f *Framework) RegisterProvider(name string, provider interface{}) {
+	f.providers[name] = provider
+}
+
+// GetProvider gets a provider by name
+func (f *Framework) GetProvider(name string) interface{} {
+	return f.providers[name]
 }

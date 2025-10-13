@@ -29,7 +29,7 @@ cache:
 # Communication protocols
 protocols:
   http: true
-  grpc: false
+  grpc: true
   websockets: false
   graphql: false
 

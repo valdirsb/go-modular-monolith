@@ -15,10 +15,13 @@ help:
 	@echo "  run           - Executa a aplicação tradicional"
 	@echo "  run-framework - Executa a aplicação com framework"
 	@echo "  test          - Executa os testes"
+	@echo "  proto-gen     - Gera código Go a partir dos arquivos .proto"
+	@echo "  grpc-test     - Testa os serviços gRPC com grpcurl"
 	@echo "  docker-up     - Inicia MySQL via Docker Compose"
 	@echo "  docker-down   - Para e remove containers Docker"
 	@echo "  docker-logs   - Mostra logs do MySQL"
-	@echo "  api-test      - Executa testes da API"
+	@echo "  api-test      - Executa testes da API REST"
+	@echo "  grpc-test     - Executa testes dos serviços gRPC"
 	@echo "  clean         - Remove arquivos gerados"
 	@echo "  setup         - Configuração inicial completa"
 	@echo "  setup-framework - Configuração inicial do framework"
@@ -57,6 +60,16 @@ framework-info:
 	@echo "Framework Info: http://localhost:8080/framework/info"
 	@echo ""
 
+## proto-gen: Gera código Go a partir dos arquivos .proto
+proto-gen:
+	@echo "🔧 Gerando código Go a partir dos arquivos .proto..."
+	@mkdir -p pkg/proto
+	@protoc --go_out=./pkg --go_opt=paths=source_relative \
+		--go-grpc_out=./pkg --go-grpc_opt=paths=source_relative \
+		proto/*.proto
+
+	@echo "✅ Código Go gerado com sucesso!"
+
 ## build: Compila a aplicação
 build:
 	@echo "🔨 Compilando aplicação..."
@@ -78,6 +91,11 @@ run-framework:
 test:
 	@echo "🧪 Executando testes..."
 	@go test -v ./...
+
+## grpc-test: Testa os serviços gRPC
+grpc-test:
+	@echo "🧪 Testando serviços gRPC..."
+	@./scripts/test_grpc.sh
 
 ## docker-up: Inicia MySQL via Docker Compose
 docker-up:
