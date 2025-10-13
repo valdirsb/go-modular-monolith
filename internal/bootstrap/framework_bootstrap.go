@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"go-modular-monolith/internal/modules/user/adapters"
@@ -17,14 +18,36 @@ import (
 	orderRepository "go-modular-monolith/internal/modules/order/repository"
 	orderService "go-modular-monolith/internal/modules/order/service"
 
+	"go-modular-monolith/internal/grpc/services"
+	"go-modular-monolith/internal/shared/config"
 	"go-modular-monolith/internal/shared/database"
 	"go-modular-monolith/pkg/container"
 	"go-modular-monolith/pkg/contracts"
 	"go-modular-monolith/pkg/events"
 	"go-modular-monolith/pkg/framework"
+	"go-modular-monolith/pkg/framework/providers"
+	grpcProvider "go-modular-monolith/pkg/framework/providers/grpc"
 
 	"gorm.io/gorm"
 )
+
+// initializeGRPCProvider initializes the gRPC provider
+func initializeGRPCProvider(fw *framework.Framework) error {
+	// Load app config to get gRPC port
+	appConfig, err := config.LoadConfig()
+	if err != nil {
+		return fmt.Errorf("failed to load app config: %v", err)
+	}
+
+	grpcProvider := grpcProvider.NewGRPCProvider(appConfig.GRPCPort)
+	fw.RegisterProvider("grpc", grpcProvider)
+
+	// Note: não inicializamos ainda, apenas registramos
+	// A inicialização será feita após o registro dos serviços
+
+	log.Printf("✅ gRPC provider registered on port %s", appConfig.GRPCPort)
+	return nil
+}
 
 // FrameworkBootstrap configures the application with framework integration
 func FrameworkBootstrap(configPath string) (*container.Container, *framework.Framework, error) {
@@ -65,6 +88,14 @@ func FrameworkBootstrap(configPath string) (*container.Container, *framework.Fra
 
 	// Register handlers for enabled modules
 	registerModuleHandlers(c, fw)
+
+	// Initialize and register gRPC services if enabled
+	if framework.IsEnabled("protocols", "grpc") {
+		if err := initializeGRPCProvider(fw); err != nil {
+			return nil, nil, err
+		}
+		registerGRPCServices(c, fw)
+	}
 
 	return c, fw, nil
 }
@@ -203,4 +234,57 @@ func registerModuleHandlers(c *container.Container, fw *framework.Framework) {
 			return orderHandler.NewOrderHandler(orderSvc)
 		})
 	}
+}
+
+// registerGRPCServices registers gRPC services with the gRPC provider
+func registerGRPCServices(c *container.Container, fw *framework.Framework) {
+	// Get gRPC provider from framework
+	grpcProv := fw.GetProvider("grpc")
+	if grpcProv == nil {
+		log.Printf("gRPC provider not found")
+		return
+	}
+
+	grpcProvider, ok := grpcProv.(*grpcProvider.GRPCProvider)
+	if !ok {
+		log.Printf("Invalid gRPC provider type")
+		return
+	}
+
+	// Register User gRPC Service
+	if framework.IsEnabled("modules", "user") {
+		userSvc := c.MustGet("userService").(contracts.UserService)
+		userRepo := c.MustGet("userRepository").(contracts.UserRepository)
+		userGRPCService := services.NewUserGRPCService(userSvc, userRepo)
+		grpcProvider.RegisterService(userGRPCService)
+		log.Printf("✅ User gRPC service registered")
+	}
+
+	// Register Product gRPC Service
+	if framework.IsEnabled("modules", "product") {
+		productSvc := c.MustGet("productService").(contracts.ProductService)
+		productGRPCService := services.NewProductGRPCService(productSvc)
+		grpcProvider.RegisterService(productGRPCService)
+		log.Printf("✅ Product gRPC service registered")
+	}
+
+	// Register Order gRPC Service
+	if framework.IsEnabled("modules", "order") {
+		orderSvc := c.MustGet("orderService").(contracts.OrderService)
+		orderGRPCService := services.NewOrderGRPCService(orderSvc)
+		grpcProvider.RegisterService(orderGRPCService)
+		log.Printf("✅ Order gRPC service registered")
+	}
+
+	// Agora inicializar o provider com todos os serviços registrados
+	ctx := context.Background()
+	deps := providers.Dependencies{
+		Config: fw.GetConfig(),
+	}
+	if err := grpcProvider.Initialize(ctx, deps); err != nil {
+		log.Printf("❌ Failed to initialize gRPC provider: %v", err)
+		return
+	}
+
+	log.Printf("✅ gRPC server started successfully on port %s", grpcProvider.GetPort())
 }

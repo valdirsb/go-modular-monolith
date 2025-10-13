@@ -10,6 +10,8 @@ Este projeto implementa um **monólito modular** em Go seguindo as melhores prá
 - **Injeção de Dependência**: Container DI para desacoplamento
 - **Comunicação por Eventos**: Módulos se comunicam via eventos assíncronos
 - **Interfaces Bem Definidas**: Contratos claros entre módulos
+- **Dual API Support**: REST (HTTP) e gRPC implementados
+- **Framework Modular**: Sistema de providers para protocolos e integrações
 
 ## 🏗️ Módulos Implementados
 
@@ -196,11 +198,29 @@ make help         # Ver todos os comandos
 make setup        # Configuração inicial completa
 make docker-up    # Iniciar MySQL via Docker
 make build        # Compilar aplicação
-make run          # Executar aplicação
+make run          # Executar aplicação (REST apenas)
+make run-framework # Executar com framework (REST + gRPC)
 make test         # Executar testes
-make api-test     # Testar API completa
+make api-test     # Testar API REST completa
+make grpc-test    # Testar serviços gRPC
+make proto-gen    # Gerar código a partir dos arquivos .proto
 make db-shell     # Conectar ao MySQL
 ```
+
+## 🔗 APIs Disponíveis
+
+### 🌐 REST API (HTTP)
+- **Porta**: 8080 (configurável via `PORT` no .env)
+- **Framework**: Gin
+- **Documentação**: Endpoints em `/api/v1/{module}`
+
+### ⚡ gRPC API  
+- **Porta**: 50051 (configurável via `GRPC_PORT` no .env)
+- **Protocolos**: Protocol Buffers
+- **Serviços**: UserService, ProductService, OrderService
+- **Health Check**: `grpc.health.v1.Health/Check`
+- **Reflection**: Habilitada para desenvolvimento
+- **Documentação**: [internal/grpc/README.md](internal/grpc/README.md)
 
 ### 🧪 Testando a API
 
